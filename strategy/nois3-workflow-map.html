@@ -1,0 +1,568 @@
+<title>NOIS3 Workflow Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#F1F3F6; --surface:#FFFFFF; --sunk:#E7EBF0;
+  --ink:#12181F; --ink2:#55616E; --ink3:#8593A1;
+  --rule:#D2D9E1; --rule-strong:#B6C1CD;
+  --accent:#1E5A86; --accent-soft:rgba(30,90,134,.09);
+  --signal:#A85114; --signal-soft:rgba(168,81,20,.09); --signal-rule:rgba(168,81,20,.45);
+  --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1219; --surface:#141B23; --sunk:#1A222B;
+    --ink:#E7ECF1; --ink2:#9AA8B6; --ink3:#6C7B8A;
+    --rule:#252F3A; --rule-strong:#37444F;
+    --accent:#78B4DC; --accent-soft:rgba(120,180,220,.12);
+    --signal:#E29255; --signal-soft:rgba(226,146,85,.13); --signal-rule:rgba(226,146,85,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1219; --surface:#141B23; --sunk:#1A222B;
+  --ink:#E7ECF1; --ink2:#9AA8B6; --ink3:#6C7B8A;
+  --rule:#252F3A; --rule-strong:#37444F;
+  --accent:#78B4DC; --accent-soft:rgba(120,180,220,.12);
+  --signal:#E29255; --signal-soft:rgba(226,146,85,.13); --signal-rule:rgba(226,146,85,.5);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{max-width:1080px;margin:0 auto;padding:0 28px 96px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+
+/* ---- shared type roles ---- */
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink3)}
+.prose{font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--ink2);max-width:64ch}
+.mono{font-family:var(--mono)}
+
+/* ---- masthead ---- */
+.mast{padding:56px 0 26px;border-bottom:2px solid var(--ink)}
+.mast h1{font-size:clamp(34px,5.2vw,54px);font-weight:700;letter-spacing:-.026em;
+  line-height:1.02;margin:14px 0 16px;text-wrap:balance}
+.mast .prose{font-size:17px;color:var(--ink)}
+.meta{display:flex;flex-wrap:wrap;gap:0 34px;margin-top:26px;
+  font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+.meta div{display:flex;gap:8px}
+.meta b{font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
+
+/* ---- legend ---- */
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 30px;
+  padding:18px 0 20px;border-bottom:1px solid var(--rule)}
+.legend p{margin:0;font-size:13px;color:var(--ink2);line-height:1.45}
+.legend b{color:var(--ink);font-weight:600}
+
+/* ---- provisional marks ---- */
+.d{border-bottom:1.5px dashed var(--signal-rule);text-decoration:none}
+/* block-level proposals read as a dashed rail; inline ones keep the underline */
+.col li.d,.kv dd.d,.gloss dd.d{border-bottom:none;border-left:1.5px dashed var(--signal-rule);
+  padding-left:12px}
+.col li.d::before{display:none}
+.blank{font-family:var(--mono);font-size:.88em;color:var(--signal);
+  background:var(--signal-soft);padding:1px 6px;border-radius:2px;white-space:nowrap}
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--signal);
+  border:1px solid var(--signal-rule);padding:1px 6px;border-radius:2px;
+  vertical-align:2px;margin-left:8px}
+
+/* ---- workflow rows ---- */
+.flow{display:grid;grid-template-columns:76px 1fr;gap:0 26px;
+  padding:34px 0;border-bottom:1px solid var(--rule)}
+.idx{font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.06em;
+  color:var(--accent);border-left:3px solid var(--accent);padding-left:12px;
+  align-self:start;position:sticky;top:14px}
+.idx span{display:block;color:var(--ink3);font-size:10.5px;font-weight:400;
+  letter-spacing:.1em;margin-top:5px;text-transform:uppercase}
+.flow h2{font-size:24px;font-weight:700;letter-spacing:-.018em;margin:-4px 0 8px;
+  text-wrap:balance}
+.flow > div > .prose{margin:0 0 22px}
+.cols{display:grid;grid-template-columns:1.45fr 1fr 1.05fr;gap:0 30px}
+.col > h3{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);margin:0 0 11px;
+  padding-bottom:7px;border-bottom:1px solid var(--rule)}
+.col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.col li{font-size:13.5px;line-height:1.44;color:var(--ink2);padding-left:14px;position:relative}
+.col li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:1.5px;
+  background:var(--rule-strong)}
+.col li b{color:var(--ink);font-weight:600}
+.kv{display:flex;flex-direction:column;gap:12px}
+.kv div{display:flex;flex-direction:column;gap:3px}
+.kv dt{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3)}
+.kv dd{margin:0;font-size:13px;line-height:1.42;color:var(--ink2)}
+.who{font-family:var(--mono);font-size:12.5px;color:var(--ink);font-weight:500}
+
+/* ---- handoff strip ---- */
+.hand{display:grid;grid-template-columns:1fr 1fr;gap:0 30px;margin-top:24px;
+  padding-top:16px;border-top:1px solid var(--rule)}
+.hand div{font-size:12.5px;color:var(--ink2);line-height:1.42}
+.hand strong{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
+
+/* ---- generic section ---- */
+.sect{padding:44px 0 0}
+.sect > h2{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0 0 10px;text-wrap:balance}
+.sect > .prose{margin:0 0 26px}
+
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule)}
+.loop article{background:var(--surface);padding:20px 22px 22px}
+.loop h3{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;
+  color:var(--accent);margin:0 0 9px}
+.loop p{margin:0;font-size:13.5px;line-height:1.46;color:var(--ink2)}
+
+/* gaps table */
+.gaps{width:100%;border-collapse:collapse;font-size:13.5px}
+.gaps th{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);text-align:left;padding:0 14px 9px 0;
+  border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+.gaps td{padding:13px 14px 13px 0;border-bottom:1px solid var(--rule);
+  vertical-align:top;color:var(--ink2);line-height:1.44}
+.gaps td:first-child{font-family:var(--mono);font-size:11.5px;color:var(--ink3);
+  white-space:nowrap;padding-right:20px}
+.gaps td:nth-child(2){color:var(--ink);font-weight:600;width:31%}
+.wrap{overflow-x:auto}
+.gaps{min-width:600px}
+
+/* glossary */
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px 34px}
+.gloss div{display:grid;grid-template-columns:96px 1fr;gap:0 14px;
+  padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.gloss dt{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink)}
+.gloss dd{margin:0;font-size:13px;line-height:1.42;color:var(--ink2)}
+
+/* footnote */
+.note{margin-top:44px;padding:20px 22px;background:var(--sunk);border-left:3px solid var(--signal)}
+.note p{margin:0;font-size:13px;line-height:1.5;color:var(--ink2)}
+.note p + p{margin-top:9px}
+.note b{color:var(--ink)}
+
+@media (max-width:860px){
+  .cols{grid-template-columns:1fr;gap:24px}
+  .flow{grid-template-columns:1fr;gap:14px}
+  .idx{position:static;border-left:none;border-top:3px solid var(--accent);
+    padding:9px 0 0;display:flex;gap:10px;align-items:baseline}
+  .idx span{margin:0}
+  .hand{grid-template-columns:1fr;gap:16px}
+  .gloss div{grid-template-columns:1fr;gap:3px}
+}
+@media (max-width:520px){ .page{padding:0 18px 72px} .meta{gap:0 20px} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="page">
+
+<header class="mast">
+  <p class="eyebrow">NOIS3 Portfolio Operations &nbsp;·&nbsp; Internal</p>
+  <h1>NOIS3 Workflow Map</h1>
+  <p class="prose">Five workflows carry every NOIS3 task order from market positioning
+  to close-out. This map states what each one owns, who is accountable, how often it
+  runs, and — the part the source diagram left implicit — where each hands work to
+  the next.</p>
+  <div class="meta">
+    <div><b>Source</b> <span>NOIS3 Workflows v4</span></div>
+    <div><b>Status</b> <span>Draft for ratification</span></div>
+    <div><b>Owner</b> <span class="blank">unassigned</span></div>
+    <div><b>Revised</b> <span>09 Sep 2026</span></div>
+  </div>
+</header>
+
+<section class="legend" aria-label="How to read this document">
+  <p><b>Plain text</b> is carried over from the source diagram unchanged.</p>
+  <p>A <b><span class="d">dashed rail or underline</span></b> marks content proposed
+  here and not yet agreed — accept it, change it, or strike it.</p>
+  <p><b><span class="blank">Amber field</span></b> is a blank only you can fill:
+  a name, a number, a threshold.</p>
+</section>
+
+<!-- ============ W1 ============ -->
+<section class="flow">
+  <div class="idx">W1<span>Position</span></div>
+  <div>
+    <h2>NOIS3 Growth Strategy</h2>
+    <p class="prose">Build the relationships and market position that decide which task
+    orders we see early and which ones we are credible to win.</p>
+    <div class="cols">
+      <div class="col">
+        <h3>In scope</h3>
+        <ul>
+          <li><b>Government client engagement</b> — COECI, sponsoring centers, and
+          mission-directorate stakeholders.</li>
+          <li><b>Competitor-partner engagement</b> — the firms we bid against on one
+          task order and team with on the next.</li>
+          <li><b>Periodic internal reporting</b> to the portfolio.</li>
+          <li class="d"><b>Capture intelligence</b> — track forecasts, sources-sought
+          notices, and industry days so an RFTP is never the first time we hear of a
+          task order.</li>
+          <li class="d"><b>Partner bench</b> — maintain named subcontractors by
+          technical domain, so a capability gap is a phone call, not a search.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Accountable</h3>
+        <div class="kv">
+          <div><dt>Lead</dt><dd class="who">Chase Team</dd></div>
+          <div><dt>Roles</dt><dd>Portfolio lead · Manager/Analyst · Director</dd></div>
+          <div><dt>Support</dt><dd class="who">Growth Team (discretionary)<br>Other delivery teams (as required)</dd></div>
+          <div><dt>Single owner</dt><dd><span class="blank">name?</span> <span class="d">one person answers for this workflow</span></dd></div>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Operating detail</h3>
+        <div class="kv">
+          <div><dt>Cadence</dt><dd class="d">Monthly portfolio review; quarterly strategy refresh.</dd></div>
+          <div><dt>System of record</dt><dd class="d">HubSpot — agency contacts and partner pipeline.</dd></div>
+          <div><dt>Health signal</dt><dd class="d">Share of task orders we knew about <span class="blank">≥ 30?</span> days before RFTP release; domains with no bench partner.</dd></div>
+        </div>
+      </div>
+    </div>
+    <div class="hand">
+      <div><strong>Hands off →</strong> A ranked list of anticipated task orders, with
+      a named partner against each capability gap, into <b>W3</b>'s bid decision.</div>
+      <div><strong>Receives ←</strong> Past-performance records and client relationship
+      intelligence from <b>W5</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ W2 ============ -->
+<section class="flow">
+  <div class="idx">W2<span>Detect &amp; Record</span></div>
+  <div>
+    <h2>NOIS3 Contract Management</h2>
+    <p class="prose">Nothing is missed and nothing is lost: every RFTP, amendment,
+    Q&amp;A window, and award notice is caught, routed, and recorded against the task
+    order it belongs to.</p>
+    <div class="cols">
+      <div class="col">
+        <h3>In scope</h3>
+        <ul>
+          <li class="d"><b>Watch and route</b> — the FedTech inbox and the NASA
+          portal, monitored daily; a released RFTP reaches the portfolio lead within
+          <span class="blank">1 business day?</span></li>
+          <li class="d"><b>Hold the record</b> — HubSpot and the Google Drive BD
+          folder carry every task order's current state, from watched through closed.</li>
+          <li class="d"><b>Vehicle obligations</b> — reporting, invoicing inputs,
+          reps &amp; certs, and insurance kept current so no submission is blocked on
+          paperwork.</li>
+          <li><b>Feedback sessions &amp; surveys</b> — participate on behalf of the
+          portfolio.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Accountable</h3>
+        <div class="kv">
+          <div><dt>Lead</dt><dd class="who">Chase Team</dd></div>
+          <div><dt>Roles</dt><dd>Portfolio lead · Manager/Analyst · Director</dd></div>
+          <div><dt>Support</dt><dd class="who">Growth Team (discretionary)<br>Other delivery teams (as required)</dd></div>
+          <div><dt>Single owner</dt><dd><span class="blank">inbox owner?</span> plus <span class="blank">backup?</span> <span class="d">— an unwatched inbox loses a task order</span></dd></div>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Operating detail</h3>
+        <div class="kv">
+          <div><dt>Cadence</dt><dd class="d">Inbox and portal checked every business day; record reconciled weekly.</dd></div>
+          <div><dt>Systems</dt><dd>FedTech inbox &amp; comms · NASA portal · HubSpot · Google Drive BD folder</dd></div>
+          <div><dt>Health signal</dt><dd class="d">Zero missed deadlines or Q&amp;A windows; share of closed task orders with a complete record.</dd></div>
+        </div>
+      </div>
+    </div>
+    <div class="hand">
+      <div><strong>Hands off →</strong> A logged, dated RFTP with its full document set
+      and deadline calendar, into <b>W3</b>.</div>
+      <div><strong>Receives ←</strong> Realized scope, cost, and effort from <b>W4</b>,
+      correcting what the record says a task order actually took.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ W3 ============ -->
+<section class="flow">
+  <div class="idx">W3<span>Decide &amp; Respond</span></div>
+  <div>
+    <h2>NOIS3 RFTP Process<span class="chip">RFTP, not RTFP</span></h2>
+    <p class="prose">Turn a released RFTP into a decision, and a favourable decision
+    into a compliant, priced, fully-teamed submission — on time, first time.</p>
+    <div class="cols">
+      <div class="col">
+        <h3>In scope</h3>
+        <ul>
+          <li class="d"><b>Bid / no-bid decision.</b> The source says we write
+          "on select RFTPs" but never says how one is selected. This gate is the
+          single largest gap in the map — criteria proposed below.</li>
+          <li><b>Response coordination</b> across internal teams; <b>internal syncs</b>.</li>
+          <li><b>Subcontracting and partnering negotiations</b> — teaming intent signed
+          <span class="d">before pricing, not after</span>.</li>
+          <li><b>Technical writing and budgeting</b> on selected RFTPs.</li>
+          <li><b>Consultant engagement</b>; <b>periodic internal reporting</b>.</li>
+          <li class="d"><b>Review before submit.</b> The portal takes one proposal per
+          prime and a later submission silently replaces the earlier one — so an
+          internal read-through is the last reversible step.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Accountable</h3>
+        <div class="kv">
+          <div><dt>Co-lead</dt><dd class="who">Chase Team</dd></div>
+          <div><dt>Co-lead</dt><dd class="who">Growth Team</dd></div>
+          <div><dt>Roles</dt><dd>Portfolio lead · Manager/Analyst · Director, on both sides</dd></div>
+          <div><dt>Support</dt><dd class="who">Other delivery teams — technical writing, as required</dd></div>
+          <div><dt>Submit authority</dt><dd><span class="blank">who signs?</span> <span class="d">co-leadership needs one tiebreaker</span></dd></div>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Operating detail</h3>
+        <div class="kv">
+          <div><dt>Cadence</dt><dd class="d">Bid decision within <span class="blank">3?</span> business days of release; kickoff within <span class="blank">2?</span> of a go; syncs <span class="blank">2×/week?</span> while live.</dd></div>
+          <div><dt>Calendar</dt><dd class="d">Built backwards from the due date: Q&amp;A deadline → sub commitments → internal review → price approval → submit at <span class="blank">T−24h?</span></dd></div>
+          <div><dt>Health signal</dt><dd class="d">Win rate; on-time submission rate; share of submissions that cleared internal review.</dd></div>
+        </div>
+      </div>
+    </div>
+    <div class="hand">
+      <div><strong>Hands off →</strong> On award: a kickoff package — winning technical
+      approach, budget, executed sub agreements, milestone dates — into <b>W4</b>.</div>
+      <div><strong>Receives ←</strong> Realized costs, pricing benchmarks, and reusable
+      proposal content from <b>W5</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ W4 ============ -->
+<section class="flow">
+  <div class="idx">W4<span>Deliver</span></div>
+  <div>
+    <h2>NOIS3 Delivery</h2>
+    <p class="prose">Deliver the technical outcome the task order bought, at a cost the
+    client can defend, in a way that makes us the people they call next time.</p>
+    <div class="cols">
+      <div class="col">
+        <h3>In scope</h3>
+        <ul>
+          <li><b>Delivering technical outcomes</b> against the awarded scope.</li>
+          <li><b>Value for money / client ROI</b> — <span class="d">measured against a
+          baseline agreed at kickoff, not asserted at close.</span></li>
+          <li><b>Trusted-advisor relationships</b> with the client.</li>
+          <li class="d"><b>Milestone acceptance</b> — each contractual deliverable
+          reviewed and formally accepted before the next begins.</li>
+          <li class="d"><b>Escalation</b> — schedule, scope, or participation risk
+          raised to the portfolio lead within <span class="blank">24h?</span> of being
+          seen, not at the next status meeting.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Accountable</h3>
+        <div class="kv">
+          <div><dt>Lead</dt><dd class="who">Assigned delivery team</dd></div>
+          <div><dt>Roles</dt><dd>Portfolio lead · Manager/Analyst · Director</dd></div>
+          <div><dt>Support</dt><dd class="who">Fin Ops · BIS · TACS · Advisors</dd></div>
+          <div><dt>Assignment rule</dt><dd><span class="blank">how is a team assigned?</span> <span class="d">named at bid, or after award?</span></dd></div>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Operating detail</h3>
+        <div class="kv">
+          <div><dt>Cadence</dt><dd class="d">Weekly internal stand-up; monthly written client status; milestone review at each deliverable.</dd></div>
+          <div><dt>System of record</dt><dd><span class="blank">not specified</span> <span class="d">— delivery has no named tool in the source</span></dd></div>
+          <div><dt>Health signal</dt><dd class="d">On-time milestone rate; solver participation against plan; CPARS-relevant performance tracked continuously.</dd></div>
+        </div>
+      </div>
+    </div>
+    <div class="hand">
+      <div><strong>Hands off →</strong> A closed task order with its deliverables,
+      realized costs, and performance record, into <b>W5</b>.</div>
+      <div><strong>Receives ←</strong> The kickoff package from <b>W3</b>; reusable
+      assets and prior retrospectives from <b>W5</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ W5 ============ -->
+<section class="flow">
+  <div class="idx">W5<span>Harvest</span></div>
+  <div>
+    <h2>Post-Delivery: Knowledge Management + Product R&amp;D</h2>
+    <p class="prose">Close the task order cleanly, and convert what we learned into
+    something the next pursuit can use — while the facts are still fresh.</p>
+    <div class="cols">
+      <div class="col">
+        <h3>In scope</h3>
+        <ul>
+          <li><b>Coordination</b> with delivery teams, Fin Ops and others on successful
+          task order delivery.</li>
+          <li class="d"><b>Close-out</b> — final invoicing and reconciliation,
+          deliverable archive, subcontractor close-out.</li>
+          <li class="d"><b>Retrospective</b> within <span class="blank">10 business
+          days?</span> of close, written down.</li>
+          <li class="d"><b>Past-performance record</b> written in the shape the next
+          RFTP will ask for — scope, client, period, outcome, verifiable.</li>
+          <li class="d"><b>Reusable assets</b> tagged into a library: challenge designs,
+          evaluation rubrics, solver-community contacts, pricing benchmarks.</li>
+          <li><b>Product R&amp;D</b> — <span class="blank">named in the title, absent
+          from the workflow</span>. <span class="d">No owner, trigger, budget, or
+          decision forum. Either staff it or drop it from the title.</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Accountable</h3>
+        <div class="kv">
+          <div><dt>Co-lead</dt><dd class="who">Chase Team + Growth Team</dd></div>
+          <div><dt>Co-lead</dt><dd class="who">BIS Team</dd></div>
+          <div><dt>Roles</dt><dd>Portfolio lead · Manager/Analyst · Director</dd></div>
+          <div><dt>Support</dt><dd class="who">Fin Ops · Advisors</dd></div>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Operating detail</h3>
+        <div class="kv">
+          <div><dt>Cadence</dt><dd class="d">Triggered at task order close, not scheduled; library reviewed quarterly.</dd></div>
+          <div><dt>System of record</dt><dd class="d">Google Drive — <span class="blank">which folder?</span> The BD folder is a pipeline store, not a knowledge base.</dd></div>
+          <div><dt>Health signal</dt><dd class="d">Share of closed task orders with a retrospective and a past-performance record on file; reusable assets cited in later winning proposals.</dd></div>
+        </div>
+      </div>
+    </div>
+    <div class="hand">
+      <div><strong>Hands off →</strong> Three returns, specified below — into
+      <b>W1</b>, <b>W3</b>, and the portfolio review.</div>
+      <div><strong>Receives ←</strong> A closed task order from <b>W4</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEEDBACK LOOP ============ -->
+<section class="sect">
+  <h2>The feedback loop, specified <span class="chip">proposed</span></h2>
+  <p class="prose">The source diagram labels a "Workflow Feedback Loop" and stops there.
+  A loop that isn't named, owned, and read is a label. These are the three returns worth
+  drawing, and the forum where they actually get read.</p>
+  <div class="loop">
+    <article>
+      <h3>W5 → W1</h3>
+      <p>Past performance and client relationship intelligence sharpen the target list.
+      What we can now prove we have done changes what we are credible bidding on next.</p>
+    </article>
+    <article>
+      <h3>W5 → W3</h3>
+      <p>Realized costs, pricing benchmarks, and reusable content improve the next
+      response. Without this, every budget is built from scratch and every estimate
+      repeats the last one's error.</p>
+    </article>
+    <article>
+      <h3>W4 → W2</h3>
+      <p>Delivery reality corrects the record. What a task order actually took in effort
+      and elapsed time is the input to the next bid/no-bid call.</p>
+    </article>
+    <article>
+      <h3>The forum</h3>
+      <p>A <span class="d">quarterly portfolio review</span> where all three returns are
+      tabled and the target list, the bid criteria, and the pricing benchmarks are
+      updated in writing. Owner: <span class="blank">who chairs?</span></p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ GAPS ============ -->
+<section class="sect">
+  <h2>What the source doesn't answer</h2>
+  <p class="prose">Ten open questions, ordered by how much damage the gap can do. The
+  first four are decisions; the rest are definitions.</p>
+  <div class="wrap">
+  <table class="gaps">
+    <thead>
+      <tr><th>Where</th><th>The gap</th><th>Why it matters &amp; what to decide</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>W3</td><td>No bid / no-bid gate</td>
+        <td>"Select RFTPs" has no selection rule, so the choice is made informally under
+        deadline pressure. Propose: domain fit with a reachable solver community; a named
+        partner for every capability gap; staff available across the period of performance;
+        purse-to-effort ratio inside an agreed band; and a P<sub>win</sub> judgement above
+        an agreed floor.</td></tr>
+      <tr><td>All five</td><td>No single accountable person</td>
+        <td>Every workflow names a team and three role titles. When two teams co-lead
+        (W3, W5) and disagree at 4pm on a due date, nothing in the map resolves it.
+        Name one owner per workflow and one tiebreaker for each co-lead pair.</td></tr>
+      <tr><td>W1 · W3 · W5</td><td>No capacity model</td>
+        <td>The Chase and Growth teams lead or co-lead four of five workflows. Three
+        RFTPs landing in one week is a foreseeable event with no stated response —
+        decide in advance what gets dropped.</td></tr>
+      <tr><td>W5</td><td>Product R&amp;D is a title only</td>
+        <td>Half of the workflow's name has no activity, owner, trigger, or budget behind
+        it. Staff it with a stage-gate and a funding source, or remove it so the map
+        stops promising something no one runs.</td></tr>
+      <tr><td>W1 · W2 · W3</td><td>"Discretionary" support is undefined</td>
+        <td>Growth Team support is marked discretionary in W1 and W2 with no allocation
+        mechanism. Who decides, on what basis, and by when?</td></tr>
+      <tr><td>W1 · W3</td><td>"Periodic internal reporting" is undefined</td>
+        <td>It appears in two workflows. Same report or different? To whom, how often,
+        in what format? Undefined reporting is reporting that stops.</td></tr>
+      <tr><td>W2 only</td><td>Tooling named in one workflow of five</td>
+        <td>W2 lists four systems; W1, W3, W4 and W5 list none. Delivery in particular
+        has no system of record, which is where the KM handoff in W5 will break.</td></tr>
+      <tr><td>All five</td><td>No metrics</td>
+        <td>Nothing in the source states what good looks like. The health signals in this
+        map are a starting proposal — pick the ones you will actually read.</td></tr>
+      <tr><td>W4</td><td>No escalation path</td>
+        <td>A challenge with low solver participation or weak submissions is the normal
+        failure mode of this business. There is no stated trigger, threshold, or route.</td></tr>
+      <tr><td>Header</td><td>Team names are never expanded</td>
+        <td>BIS and TACS appear only as acronyms; Chase and Growth are never scoped
+        against each other. A new portfolio lead cannot read this map. See the glossary.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section class="sect">
+  <h2>Who's who</h2>
+  <p class="prose">Every team below appears in the source diagram without definition.
+  The descriptions are inferred from the roles each team is assigned — confirm or correct
+  them before this map circulates.</p>
+  <dl class="gloss">
+    <div><dt>Chase</dt><dd class="d">Capture and pursuit. Leads positioning, contract
+      administration, and co-leads response. <span class="blank">expansion?</span></dd></div>
+    <div><dt>Growth</dt><dd class="d">Business development. Co-leads response and harvest;
+      discretionary support elsewhere. <span class="blank">boundary vs. Chase?</span></dd></div>
+    <div><dt>BIS</dt><dd><span class="blank">expansion?</span> <span class="d">Co-leads
+      knowledge management; supports delivery.</span></dd></div>
+    <div><dt>TACS</dt><dd><span class="blank">expansion?</span> <span class="d">Supports
+      delivery only.</span></dd></div>
+    <div><dt>Fin Ops</dt><dd class="d">Finance and operations. Supports delivery and
+      close-out — budgeting, invoicing, reconciliation.</dd></div>
+    <div><dt>Advisors</dt><dd class="d">Subject-matter advisors, internal or external.
+      Support delivery and harvest. <span class="blank">paid or standing?</span></dd></div>
+    <div><dt>Delivery team</dt><dd class="d">Assigned per task order. Leads W4.
+      <span class="blank">how many teams exist?</span></dd></div>
+    <div><dt>NOIS3</dt><dd>NASA Open Innovation Services 3 — the contract vehicle. Work
+      arrives as task orders, each released as an RFTP.</dd></div>
+    <div><dt>RFTP</dt><dd>Request for Task Order Proposal. The source diagram writes
+      "RTFP" throughout; corrected here.</dd></div>
+    <div><dt>FedTech</dt><dd><span class="blank">prime, or our own inbox?</span>
+      <span class="d">Decides whether W2 carries subcontractor compliance obligations.</span></dd></div>
+  </dl>
+</section>
+
+<aside class="note">
+  <p><b>Corrections carried from the source.</b> Spelling fixed in place:
+  <span class="mono">Goverment → Government</span>,
+  <span class="mono">Sesseions → Sessions</span>,
+  <span class="mono">Hupspot → HubSpot</span>,
+  <span class="mono">RTFP → RFTP</span>,
+  <span class="mono">managemet → management</span>,
+  <span class="mono">Coridnation → Coordination</span>,
+  <span class="mono">Knowlegde → Knowledge</span>.</p>
+  <p><b>Nothing was removed.</b> Every activity and every lead/support assignment in the
+  source diagram appears above. Workflow 2's original content was a list of four systems
+  and one activity; it is restated here as activities, with those systems moved to
+  <i>Operating detail</i> where they belong.</p>
+</aside>
+
+</div>

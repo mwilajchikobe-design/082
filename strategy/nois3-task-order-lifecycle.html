@@ -1,0 +1,404 @@
+<title>NOIS3 Task Order Lifecycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#F1F3F6; --surface:#FFFFFF; --sunk:#E7EBF0;
+  --ink:#12181F; --ink2:#55616E; --ink3:#8593A1;
+  --rule:#D2D9E1; --rule-strong:#B6C1CD;
+  --accent:#1E5A86; --accent-soft:rgba(30,90,134,.09);
+  --signal:#A85114; --signal-soft:rgba(168,81,20,.09); --signal-rule:rgba(168,81,20,.45);
+  --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1219; --surface:#141B23; --sunk:#1A222B;
+    --ink:#E7ECF1; --ink2:#9AA8B6; --ink3:#6C7B8A;
+    --rule:#252F3A; --rule-strong:#3D4A57;
+    --accent:#78B4DC; --accent-soft:rgba(120,180,220,.12);
+    --signal:#E29255; --signal-soft:rgba(226,146,85,.14); --signal-rule:rgba(226,146,85,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1219; --surface:#141B23; --sunk:#1A222B;
+  --ink:#E7ECF1; --ink2:#9AA8B6; --ink3:#6C7B8A;
+  --rule:#252F3A; --rule-strong:#3D4A57;
+  --accent:#78B4DC; --accent-soft:rgba(120,180,220,.12);
+  --signal:#E29255; --signal-soft:rgba(226,146,85,.14); --signal-rule:rgba(226,146,85,.5);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{max-width:1000px;margin:0 auto;padding:0 28px 96px}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink3)}
+.prose{font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--ink2);max-width:64ch}
+.d{border-bottom:1.5px dashed var(--signal-rule)}
+.blank{font-family:var(--mono);font-size:.88em;color:var(--signal);
+  background:var(--signal-soft);padding:1px 6px;border-radius:2px;white-space:nowrap}
+
+.mast{padding:56px 0 26px;border-bottom:2px solid var(--ink)}
+.mast h1{font-size:clamp(34px,5.2vw,54px);font-weight:700;letter-spacing:-.026em;
+  line-height:1.02;margin:14px 0 16px;text-wrap:balance}
+.mast .prose{font-size:17px;color:var(--ink)}
+.meta{display:flex;flex-wrap:wrap;gap:0 34px;margin-top:26px;
+  font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+.meta div{display:flex;gap:8px}
+.meta b{font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
+
+/* gate strip */
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin:28px 0 0}
+.strip article{background:var(--surface);padding:15px 16px 17px}
+.strip .g{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;
+  color:var(--signal);display:block;margin-bottom:7px}
+.strip h3{font-size:14px;font-weight:600;margin:0 0 5px;letter-spacing:-.01em}
+.strip p{margin:0;font-size:12px;line-height:1.4;color:var(--ink3);font-family:var(--mono)}
+
+.sect{padding:48px 0 0}
+.sect > h2{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0 0 10px;text-wrap:balance}
+.sect > .prose{margin:0 0 26px}
+
+figure{margin:0}
+.figwrap{overflow-x:auto;padding:8px 0 4px}
+figure svg{display:block;width:100%;max-width:600px;height:auto;margin:0 auto;
+  min-width:440px;color:var(--ink)}
+figcaption{font-family:var(--mono);font-size:11.5px;line-height:1.5;color:var(--ink3);
+  max-width:62ch;margin:22px auto 0;text-align:center}
+
+/* gate spec */
+.gate{display:grid;grid-template-columns:104px 1fr;gap:0 26px;
+  padding:26px 0;border-bottom:1px solid var(--rule)}
+.gate:first-of-type{border-top:1px solid var(--rule-strong)}
+.gid{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--signal);
+  border-left:3px solid var(--signal-rule);padding-left:12px;align-self:start}
+.gid span{display:block;color:var(--ink3);font-size:10px;font-weight:400;
+  letter-spacing:.1em;margin-top:5px;text-transform:uppercase}
+.gate h3{font-size:19px;font-weight:700;letter-spacing:-.015em;margin:-2px 0 14px}
+.gspec{display:grid;grid-template-columns:1fr 1fr;gap:16px 30px}
+.gspec div{display:flex;flex-direction:column;gap:4px}
+.gspec dt{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3)}
+.gspec dd{margin:0;font-size:13.5px;line-height:1.45;color:var(--ink2)}
+.gspec ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.gspec li{font-size:13.5px;line-height:1.42;color:var(--ink2);padding-left:14px;position:relative}
+.gspec li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:1.5px;
+  background:var(--signal-rule)}
+.gspec .no dd{color:var(--ink)}
+
+/* crosswalk */
+.wrap{overflow-x:auto}
+.xw{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+.xw th{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);text-align:left;padding:0 14px 9px 0;
+  border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+.xw td{padding:12px 14px 12px 0;border-bottom:1px solid var(--rule);
+  vertical-align:top;color:var(--ink2);line-height:1.42}
+.xw td:first-child{font-family:var(--mono);font-size:11.5px;color:var(--ink);
+  font-weight:600;white-space:nowrap;padding-right:20px}
+.xw td:nth-child(2){font-family:var(--mono);font-size:11.5px;color:var(--accent);white-space:nowrap}
+
+.note{margin-top:44px;padding:20px 22px;background:var(--sunk);border-left:3px solid var(--accent)}
+.note p{margin:0;font-size:13px;line-height:1.5;color:var(--ink2)}
+.note p + p{margin-top:9px}
+.note b{color:var(--ink)}
+
+@media (max-width:760px){
+  .gate{grid-template-columns:1fr;gap:12px}
+  .gid{border-left:none;border-top:3px solid var(--signal-rule);padding:9px 0 0;
+    display:flex;gap:10px;align-items:baseline}
+  .gid span{margin:0}
+  .gspec{grid-template-columns:1fr}
+}
+@media (max-width:520px){ .page{padding:0 18px 72px} .meta{gap:0 20px} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="page">
+
+<header class="mast">
+  <p class="eyebrow">NOIS3 Portfolio Operations &nbsp;·&nbsp; Internal</p>
+  <h1>NOIS3 Task Order Lifecycle</h1>
+  <p class="prose">The same five workflows, read as one pipeline. The workflow map says
+  who does what; this says <i>when the work is allowed to move</i> — five gates, what each
+  one asks, who answers, and what happens on a no.</p>
+  <div class="meta">
+    <div><b>Companion to</b> <span>NOIS3 Workflow Map</span></div>
+    <div><b>Status</b> <span>Proposed — no gate exists today</span></div>
+    <div><b>Owner</b> <span class="blank">unassigned</span></div>
+    <div><b>Revised</b> <span>09 Sep 2026</span></div>
+  </div>
+</header>
+
+<section class="strip" aria-label="The five gates at a glance">
+  <article><span class="g">GATE A</span><h3>In our lane?</h3><p>W2 → W1</p></article>
+  <article><span class="g">GATE B</span><h3>Bid or no-bid?</h3><p>W1 → W3</p></article>
+  <article><span class="g">GATE C</span><h3>Ready to submit?</h3><p>inside W3</p></article>
+  <article><span class="g">GATE D</span><h3>Won or lost?</h3><p>W3 → W4</p></article>
+  <article><span class="g">GATE E</span><h3>Fully recorded?</h3><p>W5 → W1</p></article>
+</section>
+
+<section class="sect">
+  <h2>The pipeline</h2>
+  <p class="prose">Stages are work; diamonds are decisions. A task order only advances
+  when someone answers the question in the diamond — today, four of these five answers
+  are made informally or not at all.</p>
+
+  <figure>
+    <div class="figwrap">
+    <svg viewBox="0 0 640 1112" role="img" xmlns="http://www.w3.org/2000/svg"
+         aria-label="Vertical pipeline: Position and Detect feed Gate A, in our lane; then Shape feeds Gate B, bid or no-bid; then Respond feeds Gate C, ready to submit; then In evaluation feeds Gate D, won or lost; then Deliver, which repeats a milestone acceptance loop, then Close and harvest feeds Gate E, fully recorded, which returns to Position.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--rule-strong)"/>
+        </marker>
+        <marker id="arS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--signal-rule)"/>
+        </marker>
+        <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- spine arrows -->
+      <g stroke="var(--rule-strong)" stroke-width="1.4" marker-end="url(#ar)">
+        <line x1="340" y1="72"  x2="340" y2="92"/>
+        <line x1="340" y1="152" x2="340" y2="172"/>
+        <line x1="340" y1="248" x2="340" y2="268"/>
+        <line x1="340" y1="328" x2="340" y2="348"/>
+        <line x1="340" y1="424" x2="340" y2="444"/>
+        <line x1="340" y1="504" x2="340" y2="524"/>
+        <line x1="340" y1="600" x2="340" y2="620"/>
+        <line x1="340" y1="680" x2="340" y2="700"/>
+        <line x1="340" y1="776" x2="340" y2="796"/>
+        <line x1="340" y1="856" x2="340" y2="876"/>
+        <line x1="340" y1="936" x2="340" y2="956"/>
+      </g>
+
+      <!-- "no" exits -->
+      <g stroke="var(--signal-rule)" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arS)">
+        <line x1="248" y1="212" x2="146" y2="212"/>
+        <line x1="248" y1="388" x2="146" y2="388"/>
+        <line x1="248" y1="564" x2="146" y2="564"/>
+        <line x1="248" y1="740" x2="146" y2="740"/>
+        <line x1="248" y1="992" x2="146" y2="992"/>
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--signal)" text-anchor="end">
+        <text x="140" y="209">no — not our lane;</text>
+        <text x="140" y="221">log the reason</text>
+        <text x="140" y="385">no-bid — recorded,</text>
+        <text x="140" y="397">relationship kept</text>
+        <text x="140" y="561">not ready — fix,</text>
+        <text x="140" y="573">or stand down</text>
+        <text x="140" y="737">loss — debrief,</text>
+        <text x="140" y="749">write it up</text>
+        <text x="140" y="989">not closed —</text>
+        <text x="140" y="1001">stays open</text>
+      </g>
+
+      <!-- stage boxes -->
+      <g fill="var(--surface)" stroke="var(--rule-strong)" stroke-width="1.3">
+        <rect x="220" y="16"  width="240" height="56" rx="2"/>
+        <rect x="220" y="96"  width="240" height="56" rx="2"/>
+        <rect x="220" y="272" width="240" height="56" rx="2"/>
+        <rect x="220" y="448" width="240" height="56" rx="2"/>
+        <rect x="220" y="624" width="240" height="56" rx="2"/>
+        <rect x="220" y="800" width="240" height="56" rx="2"/>
+        <rect x="220" y="880" width="240" height="56" rx="2"/>
+      </g>
+      <g text-anchor="middle" font-family="Archivo, sans-serif" font-size="13.5" font-weight="600" fill="var(--ink)">
+        <text x="340" y="41">Position</text>
+        <text x="340" y="121">Detect</text>
+        <text x="340" y="297">Shape</text>
+        <text x="340" y="473">Respond</text>
+        <text x="340" y="649">In evaluation</text>
+        <text x="340" y="825">Deliver</text>
+        <text x="340" y="905">Close &amp; harvest</text>
+      </g>
+      <g text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink3)">
+        <text x="340" y="58">W1 · relationships, bench, target list</text>
+        <text x="340" y="138">W2 · inbox, portal, record</text>
+        <text x="340" y="314">W1 + W3 · partners, scope, price shape</text>
+        <text x="340" y="490">W3 · write, budget, team, review</text>
+        <text x="340" y="666">W2 · one submission per prime, final</text>
+        <text x="340" y="842">W4 · outcomes, ROI, advisor trust</text>
+        <text x="340" y="922">W4 → W5 · reconcile, retro, record</text>
+      </g>
+
+      <!-- gate diamonds -->
+      <g fill="var(--signal-soft)" stroke="var(--signal)" stroke-width="1.3">
+        <polygon points="340,176 432,212 340,248 248,212"/>
+        <polygon points="340,352 432,388 340,424 248,388"/>
+        <polygon points="340,528 432,564 340,600 248,564"/>
+        <polygon points="340,704 432,740 340,776 248,740"/>
+        <polygon points="340,956 432,992 340,1028 248,992"/>
+      </g>
+      <g text-anchor="middle" font-family="Archivo, sans-serif" font-size="11.5" font-weight="600" fill="var(--signal)">
+        <text x="340" y="210">IN OUR LANE?</text>
+        <text x="340" y="386">BID?</text>
+        <text x="340" y="562">SUBMIT?</text>
+        <text x="340" y="738">AWARD?</text>
+        <text x="340" y="990">RECORDED?</text>
+      </g>
+      <g text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink3)">
+        <text x="340" y="224">gate a</text>
+        <text x="340" y="400">gate b</text>
+        <text x="340" y="576">gate c</text>
+        <text x="340" y="752">gate d</text>
+        <text x="340" y="1004">gate e</text>
+      </g>
+
+      <!-- milestone self-loop on Deliver -->
+      <path d="M 220 812 C 160 806 160 850 218 846" fill="none"
+            stroke="var(--rule-strong)" stroke-width="1.2" marker-end="url(#ar)"/>
+      <text x="150" y="822" font-family="IBM Plex Mono, monospace" font-size="9.5"
+            fill="var(--ink3)" text-anchor="end">repeats per</text>
+      <text x="150" y="834" font-family="IBM Plex Mono, monospace" font-size="9.5"
+            fill="var(--ink3)" text-anchor="end">milestone</text>
+
+      <!-- feedback return -->
+      <path d="M 340 1028 L 340 1066 L 604 1066 L 604 44 L 462 44" fill="none"
+            stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="5 4"
+            marker-end="url(#arA)"/>
+      <text x="576" y="560" font-family="IBM Plex Mono, monospace" font-size="9.5"
+            fill="var(--accent)" text-anchor="middle"
+            transform="rotate(-90 576 560)">feedback loop · past performance, realized costs, benchmarks</text>
+    </svg>
+    </div>
+    <figcaption>Five gates decide whether a task order advances. Only Gate D is
+    decided outside the firm.</figcaption>
+  </figure>
+</section>
+
+<section class="sect">
+  <h2>Gate specification <span class="blank" style="font-size:12px;vertical-align:5px">proposed</span></h2>
+  <p class="prose">Each gate needs three things to be real: someone who answers, evidence
+  that settles it, and a defined consequence for a no. A gate with no defined "no" is not
+  a gate — it is a status update.</p>
+
+  <div class="gate">
+    <div class="gid">GATE A<span>Qualify</span></div>
+    <div>
+      <h3>Is this task order in our lane?</h3>
+      <div class="gspec">
+        <div><dt>Answered by</dt><dd>W2 portfolio lead, within <span class="blank">1 business day?</span> of the RFTP being logged.</dd></div>
+        <div><dt>Timing</dt><dd>Immediately on detection — before anyone reads the SOW in depth.</dd></div>
+        <div><dt>Evidence to pass</dt><dd><ul>
+          <li>The technical domain maps to a solver community we can actually reach.</li>
+          <li>The period of performance is feasible against current commitments.</li>
+          <li>No organizational conflict of interest, no disqualifying reps &amp; certs gap.</li>
+        </ul></dd></div>
+        <div class="no"><dt>On a no</dt><dd>Recorded as a no-bid in HubSpot <b>with the reason</b>. Reasons accumulate into a pattern — the domains we keep declining are the bench gaps W1 should be closing.</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate">
+    <div class="gid">GATE B<span>Bid / no-bid</span></div>
+    <div>
+      <h3>Do we commit real resources to this response?</h3>
+      <div class="gspec">
+        <div><dt>Answered by</dt><dd>W3 co-leads jointly. Tiebreaker: <span class="blank">who?</span> — co-leadership without a tiebreaker stalls under deadline.</dd></div>
+        <div><dt>Timing</dt><dd>Within <span class="blank">3 business days?</span> of release, so a "go" still leaves a workable calendar.</dd></div>
+        <div><dt>Evidence to pass</dt><dd><ul>
+          <li>A named partner, with signed teaming intent, against every capability we lack.</li>
+          <li>Named staff available across the full period of performance — not "we'll find someone".</li>
+          <li>Purse-to-effort ratio inside an agreed band: <span class="blank">band?</span></li>
+          <li>Past performance we can cite and verify. Unverifiable past performance is not a near miss in a federal proposal.</li>
+          <li>P<sub>win</sub> judgement above an agreed floor given the incumbent and likely field.</li>
+        </ul></dd></div>
+        <div class="no"><dt>On a no</dt><dd>No-bid recorded with the reason, and a relationship follow-up assigned to W1 so declining is a choice the client sees us make, not silence.</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate">
+    <div class="gid">GATE C<span>Submit</span></div>
+    <div>
+      <h3>Is it compliant, priced, teamed, and read?</h3>
+      <div class="gspec">
+        <div><dt>Answered by</dt><dd><span class="blank">submit authority?</span> — one named person, not a team.</dd></div>
+        <div><dt>Timing</dt><dd><span class="blank">T−24h?</span> against the portal deadline. This is the last reversible step.</dd></div>
+        <div><dt>Evidence to pass</dt><dd><ul>
+          <li>Every field inside its character cap, verified in the portal, not the draft.</li>
+          <li>Attachments inside the stated file and page limits.</li>
+          <li>Price approved; subcontractor agreements executed, not pending.</li>
+          <li>A fresh-eyes read-through by someone who did not write it.</li>
+        </ul></dd></div>
+        <div class="no"><dt>On a no</dt><dd>Fix it, or stand down. The portal takes one proposal per prime and a later submission silently replaces the earlier one — so there is no safe "submit now, revise later".</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate">
+    <div class="gid">GATE D<span>Award</span></div>
+    <div>
+      <h3>Did we win?</h3>
+      <div class="gspec">
+        <div><dt>Answered by</dt><dd>The client. The only gate we do not control — which makes what we do with the answer the whole point.</dd></div>
+        <div><dt>Timing</dt><dd>On award notice, logged by W2 the day it arrives.</dd></div>
+        <div><dt>Evidence to pass</dt><dd><ul>
+          <li>Award logged, kickoff package assembled by W3: winning approach, budget, executed subs, milestone dates.</li>
+          <li>Delivery team assigned — <span class="blank">at bid, or after award?</span></li>
+        </ul></dd></div>
+        <div class="no"><dt>On a loss</dt><dd>Request a debrief where the vehicle allows one, and write the loss reasons into the W5 record within <span class="blank">10 business days?</span>. A loss that isn't written down gets repeated at full price.</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate">
+    <div class="gid">GATE E<span>Harvest</span></div>
+    <div>
+      <h3>Is this task order fully recorded?</h3>
+      <div class="gspec">
+        <div><dt>Answered by</dt><dd>W5 co-leads (Chase + Growth, BIS), with Fin Ops sign-off on the financial side.</dd></div>
+        <div><dt>Timing</dt><dd>Within <span class="blank">10 business days?</span> of final delivery.</dd></div>
+        <div><dt>Evidence to pass</dt><dd><ul>
+          <li>Retrospective written down, not held in a conversation.</li>
+          <li>Past-performance record in the shape the next RFTP will ask for.</li>
+          <li>Final invoice reconciled; subcontractors closed out.</li>
+          <li>Reusable assets tagged into the library: challenge design, evaluation rubric, solver contacts, realized pricing.</li>
+        </ul></dd></div>
+        <div class="no"><dt>On a no</dt><dd>The task order stays open in the record. Close-out is a state, not a date — and this is the gate that makes the feedback loop more than a label on a diagram.</dd></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sect">
+  <h2>Reading the two documents together</h2>
+  <p class="prose">Neither view replaces the other. The workflow map is the org chart of
+  the portfolio; this is its clock.</p>
+  <div class="wrap">
+  <table class="xw">
+    <thead>
+      <tr><th>Stage</th><th>Workflow</th><th>What has to exist before it advances</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Position</td><td>W1</td><td>A ranked target list and a partner bench with no uncovered technical domain. Continuous — never "done".</td></tr>
+      <tr><td>Detect</td><td>W2</td><td>The RFTP logged, dated, with its full document set and a deadline calendar. <b>Gate A</b> follows.</td></tr>
+      <tr><td>Shape</td><td>W1 + W3</td><td>Named partners, a scope read, and a rough price shape — enough to answer <b>Gate B</b> honestly.</td></tr>
+      <tr><td>Respond</td><td>W3</td><td>Written, budgeted, teamed, reviewed. <b>Gate C</b> is the last reversible step.</td></tr>
+      <tr><td>In evaluation</td><td>W2</td><td>Submission confirmed and logged; nothing further is possible. <b>Gate D</b> is the client's.</td></tr>
+      <tr><td>Deliver</td><td>W4</td><td>Milestone acceptance repeats per deliverable; escalation route live throughout.</td></tr>
+      <tr><td>Close &amp; harvest</td><td>W4 → W5</td><td>Reconciled, retrospected, recorded. <b>Gate E</b> closes the loop back to Position.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<aside class="note">
+  <p><b>What this adds, and what it assumes.</b> The source diagram contains no gates.
+  Every criterion, threshold, and timing above is proposed here for you to accept or
+  replace; amber fields are decisions no one outside your firm can make.</p>
+  <p><b>The one gate worth arguing about first is B.</b> The source says technical writing
+  happens "on select RFTPs" and never says how one is selected. Until that rule is written
+  down, the most consequential resource decision in the portfolio is made informally,
+  under deadline, by whoever is in the room.</p>
+</aside>
+
+</div>
