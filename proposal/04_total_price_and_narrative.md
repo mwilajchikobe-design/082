@@ -1,8 +1,3 @@
-TOTAL PRICE (USD): 465,000
+TOTAL PRICE (USD): 462,493
 
-NARRATIVE:
-Prize awards ($7,100,000 across Stage 1, Milestone 1, and Milestone 2 as specified in the RFTP) are paid directly by NIH and are excluded from this price, per the RFTP's prize-payment instruction.
-
-Our firm-fixed price of $465,000 covers all design, execution, and management by stage: Stage 1 $116,000 (25%); Milestone 1 $163,000 (35%); Milestone 2, convening, and closeout $186,000 (40%). The weighting follows workload — review volume, SME hours, and the convening all concentrate late.
-
-By entity: FedTech $279,000 (60%) for program management, platform, outreach, competitor management, and reporting; CIMIT $93,000 (20%) for review infrastructure and toxicology/NAMs SME sourcing; [QUANTUM PARTNER] $93,000 (20%) for quantum SME sourcing and hardware review. SME compensation and the accessibility audit are carried within these amounts. See Alternate Approach.
+Total: $462,493 (99.5% of the $465,000 NTE), excluding the prize purse NIH pays directly. The estimate is driver-based: three outreach and judging cycles, one convening, twenty reporting deliverables, and 63 program months. Award amount, management and execution fee, and external entity expense per phase. Stage 1: $177,398, of which $139,403 FedTech and $37,995 review panel. Stage 2 Milestone 1: $125,122, of which $87,127 FedTech and $37,995 review panel. Stage 2 Milestone 2: $159,973, of which $121,978 FedTech and $37,995 review panel. FedTech's $348,508 is $279,922 labor and $68,586 loaded other direct costs and travel. The $113,985 panel line funds the Q-1270 floor: the Wake Forest Institute for Regenerative Medicine on biomedical review and a quantum bench FedTech recruits and compensates.
