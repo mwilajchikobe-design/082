@@ -12,7 +12,7 @@ CIMIT + QDTI team. Subcontractor is WFIRM. Paste each file verbatim.
 
 | File | Field | Cap | Count | Fill |
 |---|---|---|---|---|
-| `01_technical_approach.md` | Technical Approach | 7,500 | 7,490 | 99.9% |
+| `01_technical_approach.md` | Technical Approach | 7,500 | 7,493 | 99.9% |
 | `02_schedule_pm_communications.md` | Schedule, PM, Communications | 3,000 | 2,964 | 98.8% |
 | `03_rationale_for_selection.md` | Rationale for Selection | 2,000 | 1,944 | 97.2% |
 | `04_total_price_and_narrative.md` | Total Price + Narrative | 900 (narrative) | 804 | 89.3% |
@@ -30,6 +30,35 @@ Caps of 7,500 and 900 are the live portal values, not the RFTP PDF's 6,500 / 500
 - Labor `279,922` + loaded ODC/travel `68,586` = `348,508`
 - Honoraria `120 x $193 + 160 x $271 = 66,520`; `+ 47,465` panel overhead `= 113,985`
 - Stage 2 honoraria `37,120`; Tier 1 `+57,444 = 94,564` (2.55x); tiers `519,937` / `552,396`
+
+## Technical Approach restructured to the NOIS3-045 pattern
+
+Field 1 now mirrors the structure of the successful 045 bid, at the user's
+direction, after the 045 source text became available:
+
+- Two anchor paragraphs (field state, three gaps, who does what), then
+- **Challenge Design and Stage Structure** as the largest single block - five
+  paragraphs walking pre-launch, Stage 1, between-stage matchmaking,
+  Milestone 1 and Milestone 2. By-phase content went from 608 characters in
+  one paragraph to 2,454 across five.
+- Then 045's focused closers with run-in labels: Outreach and Participant
+  Recruitment, Platform and Submission Management, Judging and Evaluation,
+  In-Person Convening, Reporting and Network Handoff.
+
+Proportions match 045's own (phase block largest single section; closers
+collectively larger). The standalone compliance paragraph was dissolved and
+its content threaded into Platform, Judging and Reporting, which is what 045
+does.
+
+Cut to fund the expansion: the four NOIS3-039 named individuals (045 names
+categories and one network, never individuals), the UMD Quantum Startup
+Foundry mention (deduped - it carries the point in field 3), and the AVATAR
+opener, demoted to a clause in the second anchor paragraph.
+
+**Known limitation.** 045 attaches a named instrument to every phase (POCTRN,
+CoLab, Risk Assessment Score, CRAASH). Qu-SAFE has one, PhysioVerse. The
+remaining phase paragraphs describe process rather than proprietary method.
+This is downstream of the SME concepting conversation that never happened.
 
 ## Resolved this pass
 
