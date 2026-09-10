@@ -12,12 +12,12 @@ CIMIT + QDTI team. Subcontractor is WFIRM. Paste each file verbatim.
 
 | File | Field | Cap | Count | Fill |
 |---|---|---|---|---|
-| `01_technical_approach.md` | Technical Approach | 7,500 | 7,491 | 99.9% |
-| `02_schedule_pm_communications.md` | Schedule, PM, Communications | 3,000 | 2,991 | 99.7% |
+| `01_technical_approach.md` | Technical Approach | 7,500 | 7,497 | 100.0% |
+| `02_schedule_pm_communications.md` | Schedule, PM, Communications | 3,000 | 2,997 | 99.9% |
 | `03_rationale_for_selection.md` | Rationale for Selection | 2,000 | 1,998 | 99.9% |
-| `04_total_price_and_narrative.md` | Total Price + Narrative | 900 (narrative) | 734 | 81.6% |
+| `04_total_price_and_narrative.md` | Total Price + Narrative | 900 (narrative) | 569 | 63.2% |
 | `05_teaming_arrangements.md` | Teaming Arrangements | 2,000 | 1,991 | 99.6% |
-| `06_alternate_approach.md` | Alternate Approach (optional) | 3,000 | 2,675 | 89.2% |
+| `06_alternate_approach.md` | Alternate Approach (optional) | 3,000 | 2,984 | 99.5% |
 
 `04` line 1 is the Total Price field (5.2.5); the narrative (5.2.6) starts line 3.
 Caps of 7,500 and 900 are the live portal values, not the RFTP PDF's 6,500 / 500.
@@ -59,6 +59,47 @@ opener, demoted to a clause in the second anchor paragraph.
 CoLab, Risk Assessment Score, CRAASH). Qu-SAFE has one, PhysioVerse. The
 remaining phase paragraphs describe process rather than proprietary method.
 This is downstream of the SME concepting conversation that never happened.
+
+## RFTP received and checked line by line
+
+The solicitation PDF arrived and was parsed (44,562 chars, inline zlib/Tj
+extractor - no poppler, pandoc or pypdf in this container).
+
+**Fixed against the RFTP:**
+- **Price narrative rebuilt for 5.2.6.1/.2/.3.** The RFTP requires award amount,
+  management and execution fee, AND external entity expense *per phase*. Comment
+  12 had removed the per-phase party split, which was the external-entity
+  disclosure. Now: Stage 1 $177,398 = $139,403 + $37,995; M1 $125,122 = $87,127 +
+  $37,995; M2 $159,973 = $121,978 + $37,995. The RFTP overrode comment 12 here,
+  confirmed with the user.
+- **Team Expertise (10 pts) was unassigned.** Stage 1 scores Innovation & Impact
+  20, Technical Approach & Workflow 30, Measurement & Characterization Plan 20,
+  Data Analysis & Interpretation 20, Team Expertise 10. Field 1 assigned four of
+  five. Both panels now score Team Expertise.
+- **Criteria are stage-specific**, and field 1 named Stage 1's categories as
+  though universal (Phase 2.1 and 2.2 use different ones). Now generalised to
+  category families, which holds at every stage.
+- **Real §1.3.2 dates replace vague ones** in field 2: registration Oct 25 2026,
+  NIH Challenge Webinar Nov 2026, Stage 1 window Dec 31 2026-July 2027, winners
+  Nov 2027, Stage 2 opens Dec 2027, M1 July 2028 / winners Nov 2028, M2
+  Nov 2029, grand prize Mar 2030, presentations May 2030. Timeline assumes a
+  Sept 15 2026 award, now stated.
+- **IP term completed**: the Government may negotiate a licence, which the draft
+  omitted.
+- **Charlotte timing corrected**: Dec 1-2 2026 falls after registration opens,
+  before the Stage 1 submission window - not "after Stage 1 opens".
+
+**Character caps:** RFTP §5.2.2 publishes 6,500 and §5.2.6 publishes 500. The
+portal shows 7,500 and 900, confirmed by the user, and those govern. The other
+four caps match the RFTP exactly.
+
+**Verified correct, no action:** $7,100,000 purse excluded; up to 25 Stage 1 at
+$20k, 15 M1 at $200k, 6 runners-up at $460k, one $840k grand prize; Stage 1
+optional but M1 mandatory for M2; FAR 52.225-5; Section 508 + 36 CFR; one-year
+retention; $250k insurance; indemnification; staff travel only; webinars before
+Stage 1 and M1; Q&A webinar per phase; twelve-month survey; "best-guess"
+registrant analysis; non-contractor-branded URL; prime >50%; subcontractor
+disclosure; two PDFs max; TEP recommends to a government Judging Panel.
 
 ## Comment round applied (16 comments from JC) + WFIRM call notes
 
