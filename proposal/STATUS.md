@@ -13,10 +13,10 @@ CIMIT + QDTI team. Subcontractor is WFIRM. Paste each file verbatim.
 | File | Field | Cap | Count | Fill |
 |---|---|---|---|---|
 | `01_technical_approach.md` | Technical Approach | 7,500 | 7,493 | 99.9% |
-| `02_schedule_pm_communications.md` | Schedule, PM, Communications | 3,000 | 2,964 | 98.8% |
-| `03_rationale_for_selection.md` | Rationale for Selection | 2,000 | 1,944 | 97.2% |
+| `02_schedule_pm_communications.md` | Schedule, PM, Communications | 3,000 | 2,999 | 100.0% |
+| `03_rationale_for_selection.md` | Rationale for Selection | 2,000 | 1,999 | 100.0% |
 | `04_total_price_and_narrative.md` | Total Price + Narrative | 900 (narrative) | 804 | 89.3% |
-| `05_teaming_arrangements.md` | Teaming Arrangements | 2,000 | 1,994 | 99.7% |
+| `05_teaming_arrangements.md` | Teaming Arrangements | 2,000 | 1,996 | 99.8% |
 | `06_alternate_approach.md` | Alternate Approach (optional) | 3,000 | 2,577 | 85.9% |
 
 `04` line 1 is the Total Price field (5.2.5); the narrative (5.2.6) starts line 3.
@@ -59,6 +59,31 @@ opener, demoted to a clause in the second anchor paragraph.
 CoLab, Risk Assessment Score, CRAASH). Qu-SAFE has one, PhysioVerse. The
 remaining phase paragraphs describe process rather than proprietary method.
 This is downstream of the SME concepting conversation that never happened.
+
+## Fields 2, 3 and 5 benchmarked to NOIS3-045
+
+Same pass as field 1, using the 045 source text.
+
+- **Field 2** now opens with a `Project Timeline:` label and run-in phase
+  labels (Setup and Launch, Stage 2, Convening and Closeout), as 045 does.
+  Added a named communications owner with tenure (Justin Panzer, Director of
+  Marketing, 20+ years), audience segmentation, and the named-role backup
+  commitment within FedTech's 10+ person Arlington VA delivery team - the
+  continuity answer a five-year period with long gaps needs.
+- **Field 3** gained a one-line thesis and FedTech throughput figures carried
+  from 045: 136 programs, and xTechSearch at 134 startups across 15+ cohorts
+  with 1,650 mentorship hours.
+- **Field 5** gained the named single point of contact (Chikobe) and 516+
+  engagements spanning DOD, DARPA, NASA and civilian agencies.
+
+**Deliberately NOT carried from 045:** its "TO 021, TO 039" active task order
+citation. Field 3 names 045, 050 and 039, which is this bid's own established
+set, and field 5 says "an active NOIS3 performer" without numbers.
+
+**Carried from 045 at the user's direction and therefore as old as that bid:**
+136 programs, 516+ engagements, 134 startups / 15+ cohorts / 1,650 hours,
+10+ person Arlington team, Chikobe 15+ years, Panzer 20+ years. Refresh any
+that have moved before submitting.
 
 ## Resolved this pass
 
