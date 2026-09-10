@@ -12,12 +12,12 @@ CIMIT + QDTI team. Subcontractor is WFIRM. Paste each file verbatim.
 
 | File | Field | Cap | Count | Fill |
 |---|---|---|---|---|
-| `01_technical_approach.md` | Technical Approach | 7,500 | 7,493 | 99.9% |
-| `02_schedule_pm_communications.md` | Schedule, PM, Communications | 3,000 | 2,999 | 100.0% |
-| `03_rationale_for_selection.md` | Rationale for Selection | 2,000 | 1,999 | 100.0% |
-| `04_total_price_and_narrative.md` | Total Price + Narrative | 900 (narrative) | 804 | 89.3% |
-| `05_teaming_arrangements.md` | Teaming Arrangements | 2,000 | 1,996 | 99.8% |
-| `06_alternate_approach.md` | Alternate Approach (optional) | 3,000 | 2,577 | 85.9% |
+| `01_technical_approach.md` | Technical Approach | 7,500 | 7,491 | 99.9% |
+| `02_schedule_pm_communications.md` | Schedule, PM, Communications | 3,000 | 2,991 | 99.7% |
+| `03_rationale_for_selection.md` | Rationale for Selection | 2,000 | 1,998 | 99.9% |
+| `04_total_price_and_narrative.md` | Total Price + Narrative | 900 (narrative) | 734 | 81.6% |
+| `05_teaming_arrangements.md` | Teaming Arrangements | 2,000 | 1,991 | 99.6% |
+| `06_alternate_approach.md` | Alternate Approach (optional) | 3,000 | 2,675 | 89.2% |
 
 `04` line 1 is the Total Price field (5.2.5); the narrative (5.2.6) starts line 3.
 Caps of 7,500 and 900 are the live portal values, not the RFTP PDF's 6,500 / 500.
@@ -59,6 +59,46 @@ opener, demoted to a clause in the second anchor paragraph.
 CoLab, Risk Assessment Score, CRAASH). Qu-SAFE has one, PhysioVerse. The
 remaining phase paragraphs describe process rather than proprietary method.
 This is downstream of the SME concepting conversation that never happened.
+
+## Comment round applied (16 comments from JC) + WFIRM call notes
+
+- **PhysioVerse reframed and upgraded.** Research could not support "WFIRM helps
+  run" it; the sourced wording is "developed with WFIRM", and the call supplied
+  **5,000+ datasets**. Now appears in fields 1, 3 and 5 on that basis.
+- **WFIRM's AI tools added** - they read NAM data including quantum sensor
+  signals against clinical and preclinical datasets. This closes the RFTP's third
+  application area (smart data analysis), which the draft barely addressed, and
+  gives Milestone 2 a clinical-relevance check.
+- **WFIRM reference-testing facilities** added to Milestone 1.
+- **Modalities realigned to the RFTP's own language**: nanodiamond sensors,
+  quantum magnetometry, quantum-enhanced optics and spectroscopy, intracellular
+  thermometry. Dropped quantum dot labels and single-photon detection, which do
+  not appear in the challenge's framing.
+- **SME bench reframed as an anchor pool.** Atala, Yoo and Soker anchor a pool
+  reviewers are drawn from; it widens with volume and recusals. Three people
+  absorbing 160 biomedical reviews over five years would not have survived a
+  sceptical read.
+- **Infleqtion confirmed and upgraded** - listed on NYSE Feb 2026; FedTech
+  alumni have raised **$5.7B**. WFIRM credentials added (Atala NAM member;
+  Yoo Associate Director, AIMBE Fellow). FedTech named as **one of 25 performers**
+  on the NASA Open Innovation contract. Arlington hub and the **Dec 1-2 2026
+  Charlotte** standards meeting added.
+- **Price narrative restructured per comment 12**: per-phase with what each buys,
+  prime share stated once as the actual 75.4%.
+- **Field 1 paid for all of this** by cutting the TraCE/MATChS/AVATAR landscape
+  paragraph (~265) and a community-continuity sentence duplicated from field 2.
+
+### Alternate Approach - blind re-review (comment 15)
+Fixed: the Tier 2 paragraph said three hours a month "funds a lighter version"
+of Q-1277, conceding the base bid under-delivers - the same self-undermining
+pattern already fixed once in this field. Also fixed an assumption of 25
+Milestone 1 submissions equalling exactly the 25 Stage 1 winners, which implied
+no new entrants and contradicted field 1.
+
+**Still open, needs your call:** the field cites "the Q&A of 2026-09-10", the
+same date as the submission deadline. Check that date. And 40 Stage 1
+submissions yielding 25 winners is a 62.5% acceptance rate, which sits oddly
+beside the proposal's claim of strong dual-track recruitment.
 
 ## Fields 2, 3 and 5 benchmarked to NOIS3-045
 
