@@ -1,0 +1,928 @@
+<title>Challenge Launch Console</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+    --label-w: 150px;
+
+    --surface-page: #f9f9f7;
+    --surface-card: #fcfcfb;
+    --surface-sunken: #f2f1ec;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --border: rgba(11,11,11,0.10);
+    --border-strong: rgba(11,11,11,0.16);
+    --gridline: #e1e0d9;
+    --baseline: #c3c2b7;
+
+    --accent: #2a78d6;
+    --accent-wash: rgba(42,120,214,0.10);
+
+    --c1: #2a78d6; --c1-fg: #ffffff; --c1-wash: rgba(42,120,214,0.14); --c1-ink: #2a78d6;
+    --c2: #eb6834; --c2-fg: #ffffff; --c2-wash: rgba(235,104,52,0.14); --c2-ink: #eb6834;
+    --c3: #1baf7a; --c3-fg: #0b0b0b; --c3-wash: rgba(27,175,122,0.16); --c3-ink: #0f8a5c;
+
+    --good: #0ca30c;
+    --good-wash: rgba(12,163,12,0.12);
+    --warning: #fab219;
+    --warning-wash: rgba(250,178,25,0.16);
+    --serious: #ec835a;
+    --critical: #d03b3b;
+    --critical-wash: rgba(208,59,59,0.12);
+
+    --warning-ink: #8a5c00;
+    --tooltip-bg: #0b0b0b;
+    --tooltip-fg: #f9f9f7;
+    --tooltip-muted: #a8a6a0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-page: #0d0d0d;
+      --surface-card: #1a1a19;
+      --surface-sunken: #202020;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --border: rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.18);
+      --gridline: #2c2c2a;
+      --baseline: #383835;
+
+      --accent: #3987e5;
+      --accent-wash: rgba(57,135,229,0.16);
+
+      --c1: #3987e5; --c1-fg: #ffffff; --c1-wash: rgba(57,135,229,0.20); --c1-ink: #3987e5;
+      --c2: #d95926; --c2-fg: #ffffff; --c2-wash: rgba(217,89,38,0.20); --c2-ink: #d95926;
+      --c3: #199e70; --c3-fg: #ffffff; --c3-wash: rgba(25,158,112,0.22); --c3-ink: #199e70;
+
+      --good-wash: rgba(12,163,12,0.18);
+      --warning-wash: rgba(250,178,25,0.18);
+      --critical-wash: rgba(208,59,59,0.20);
+
+      --warning-ink: #fab219;
+      --tooltip-bg: #ffffff;
+      --tooltip-fg: #0b0b0b;
+      --tooltip-muted: #6a6a68;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-page: #0d0d0d;
+    --surface-card: #1a1a19;
+    --surface-sunken: #202020;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --border: rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.18);
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+
+    --accent: #3987e5;
+    --accent-wash: rgba(57,135,229,0.16);
+
+    --c1: #3987e5; --c1-fg: #ffffff; --c1-wash: rgba(57,135,229,0.20); --c1-ink: #3987e5;
+    --c2: #d95926; --c2-fg: #ffffff; --c2-wash: rgba(217,89,38,0.20); --c2-ink: #d95926;
+    --c3: #199e70; --c3-fg: #ffffff; --c3-wash: rgba(25,158,112,0.22); --c3-ink: #199e70;
+
+    --good-wash: rgba(12,163,12,0.18);
+    --warning-wash: rgba(250,178,25,0.18);
+    --critical-wash: rgba(208,59,59,0.20);
+
+    --warning-ink: #fab219;
+    --tooltip-bg: #ffffff;
+    --tooltip-fg: #0b0b0b;
+    --tooltip-muted: #6a6a68;
+  }
+
+  * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  body {
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.45;
+    padding: 0 20px 64px;
+  }
+  main { max-width: 1180px; margin: 0 auto; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 800; margin: 0; text-wrap: balance; }
+  a { color: var(--accent); }
+  button { font-family: inherit; }
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  /* ---------- sample-data banner ---------- */
+  #sample-banner {
+    max-width: 1180px; margin: 0 auto; padding-top: 14px;
+  }
+  #sample-banner .inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--warning-wash); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px; font-size: 12.5px; color: var(--text-secondary);
+  }
+  #sample-banner strong { color: var(--text-primary); }
+  #sample-banner button {
+    flex: none; background: none; border: 1px solid var(--border-strong); border-radius: 6px;
+    padding: 4px 10px; font-size: 12px; color: var(--text-secondary); cursor: pointer;
+  }
+  #sample-banner button:hover { background: var(--surface-card); color: var(--text-primary); }
+
+  /* ---------- header ---------- */
+  header.top {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+    padding: 22px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.11em;
+    text-transform: uppercase; color: var(--text-muted); margin: 0 0 6px;
+  }
+  header.top h1 { font-size: 26px; }
+  header.top .sub { color: var(--text-secondary); font-size: 13.5px; margin-top: 6px; max-width: 56ch; }
+  .asof { text-align: right; }
+  .asof .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .asof .date { font-family: var(--font-mono); font-size: 15px; font-weight: 500; margin-top: 2px; }
+
+  section { margin-bottom: 30px; }
+  section > h2 { font-size: 17px; margin-bottom: 3px; }
+  section > .section-sub { color: var(--text-secondary); font-size: 12.5px; margin-bottom: 14px; }
+
+  /* ---------- KPI row ---------- */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kpi-tile {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .kpi-tile .label { font-size: 12px; color: var(--text-secondary); }
+  .kpi-tile .value { font-family: var(--font-display); font-size: 30px; font-weight: 800; margin-top: 6px; }
+  .kpi-tile .value.warn { color: var(--warning); }
+  .kpi-tile .value.crit { color: var(--critical); }
+  .kpi-tile .caption { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ---------- competition cards ---------- */
+  .cards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .comp-card {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 18px; border-left: 3px solid var(--card-color);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .comp-card .card-head { display: flex; align-items: center; gap: 10px; }
+  .badge {
+    flex: none; width: 26px; height: 26px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-weight: 500; font-size: 13px;
+    background: var(--card-color); color: var(--card-fg);
+  }
+  .badge.outline { background: none; border: 1.5px solid var(--border-strong); color: var(--text-secondary); }
+  .comp-card .titles { min-width: 0; }
+  .comp-card .name { font-style: italic; color: var(--text-secondary); font-size: 13.5px; font-weight: 500; }
+  .comp-card .agency { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+  .status-pill {
+    margin-left: auto; flex: none; font-size: 11px; font-weight: 600; padding: 3px 9px;
+    border-radius: 100px; white-space: nowrap;
+  }
+  .status-pill.good { background: var(--good-wash); color: var(--good); }
+  .status-pill.warning { background: var(--warning-wash); color: var(--warning-ink); }
+  .status-pill.critical { background: var(--critical-wash); color: var(--critical); }
+
+  .countdown .n { font-family: var(--font-display); font-size: 26px; font-weight: 800; }
+  .countdown .u { font-size: 12.5px; color: var(--text-secondary); margin-left: 4px; }
+  .countdown .d { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+  .countdown .flag { font-size: 11.5px; color: var(--warning); font-weight: 600; margin-top: 4px; }
+
+  .meter-wrap .meter-label { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-secondary); margin-bottom: 5px; }
+  .meter-wrap .meter-label b { color: var(--text-primary); font-family: var(--font-mono); font-weight: 500; }
+  .meter-track { height: 7px; border-radius: 100px; background: var(--card-wash); overflow: hidden; }
+  .meter-fill { height: 100%; border-radius: 100px; background: var(--card-color); }
+
+  .comp-card .owner-row { font-size: 11.5px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .comp-card .owner-row .owner { font-style: italic; }
+  .card-link {
+    font-size: 12px; font-weight: 600; text-decoration: none; color: var(--card-ink);
+    border-top: 1px solid var(--border); padding-top: 10px; margin-top: 2px;
+  }
+  .card-link:hover { text-decoration: underline; }
+
+  /* ---------- timeline ---------- */
+  .timeline-card {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px 30px;
+  }
+  .timeline-legend {
+    display: flex; gap: 18px; flex-wrap: wrap; font-size: 11.5px; color: var(--text-secondary);
+    margin: 10px 0 18px;
+  }
+  .timeline-legend .item { display: flex; align-items: center; gap: 6px; }
+  .leg-bar { width: 16px; height: 9px; border-radius: 3px; background: var(--text-muted); }
+  .leg-diamond { width: 8px; height: 8px; background: var(--text-muted); transform: rotate(45deg); }
+  .leg-today { width: 1px; height: 12px; background: var(--critical); }
+
+  .tl-scroll { overflow-x: auto; }
+  .tl-inner { min-width: 640px; position: relative; }
+  .tl-axis {
+    position: relative; height: 20px; margin-left: var(--label-w);
+    border-bottom: 1px solid var(--gridline);
+  }
+  .tl-axis .tick {
+    position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--gridline);
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); padding-left: 4px;
+  }
+  .tl-rows { position: relative; margin-left: var(--label-w); }
+  .tl-row { position: relative; height: 44px; border-bottom: 1px dashed var(--gridline); }
+  .tl-row:last-child { border-bottom: none; }
+  .tl-label {
+    position: absolute; left: calc(-1 * var(--label-w)); top: 0; bottom: 0; width: calc(var(--label-w) - 10px);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .tl-label .badge { width: 22px; height: 22px; font-size: 11.5px; border-radius: 6px; }
+  .tl-label .lname { font-size: 12px; font-style: italic; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .stage-block {
+    position: absolute; top: 11px; height: 22px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; cursor: default;
+    min-width: 10px;
+  }
+  .stage-block.solid { background: var(--blk-color); color: var(--blk-fg); }
+  .stage-block.wash { background: var(--blk-wash); border: 1px solid var(--blk-color); color: transparent; }
+  .stage-block .above-label {
+    position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); white-space: nowrap;
+  }
+  .stage-block:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .tl-point {
+    position: absolute; top: 15px; width: 11px; height: 11px; transform: translateX(-50%) rotate(45deg);
+    border: 1.5px solid var(--surface-card); cursor: default;
+  }
+  .tl-point:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .tl-today {
+    position: absolute; top: -20px; bottom: 0; width: 0; border-left: 1.5px dashed var(--critical);
+    pointer-events: none;
+  }
+  .tl-today .lbl {
+    position: absolute; bottom: -18px; left: 4px; font-family: var(--font-mono); font-size: 10px;
+    color: var(--critical); white-space: nowrap;
+  }
+
+  .tooltip {
+    position: fixed; z-index: 50; background: var(--tooltip-bg); color: var(--tooltip-fg);
+    border-radius: 8px; padding: 8px 11px; font-size: 12px; max-width: 240px;
+    pointer-events: none; box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  }
+  .tooltip .t-title { font-weight: 600; margin-bottom: 2px; }
+  .tooltip .t-line { color: var(--tooltip-muted); font-size: 11.3px; }
+
+  /* ---------- split row: tasks + risks ---------- */
+  .split-row { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 16px; align-items: start; }
+
+  .panel {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px;
+  }
+
+  .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .filter-row .group { display: flex; gap: 5px; flex-wrap: wrap; }
+  .chip {
+    font-family: var(--font-body); font-size: 11.5px; font-weight: 500; padding: 5px 11px;
+    border-radius: 100px; border: 1px solid var(--border-strong); background: none; color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .chip:hover { background: var(--surface-sunken); }
+  .chip[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-card); border-color: var(--text-primary); }
+  .chip[aria-pressed="true"].s-blocked { background: var(--critical); border-color: var(--critical); color: #fff; }
+  .chip[aria-pressed="true"].s-progress { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chip[aria-pressed="true"].s-done { background: var(--good); border-color: var(--good); color: #fff; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12.8px; }
+  th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; padding: 0 8px 8px; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 8px; border-bottom: 1px solid var(--gridline); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.owner { color: var(--text-secondary); white-space: nowrap; }
+  td.due { font-family: var(--font-mono); white-space: nowrap; }
+  .due-tag { display: block; font-size: 10px; font-weight: 600; margin-top: 2px; }
+  .due-tag.overdue { color: var(--critical); }
+  .due-tag.soon { color: var(--warning-ink); }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500;
+    padding: 3px 8px; border-radius: 100px; white-space: nowrap;
+  }
+  .tag.neutral { background: var(--surface-sunken); color: var(--text-secondary); }
+  .tag.accent { background: var(--accent-wash); color: var(--accent); }
+  .tag.good { background: var(--good-wash); color: var(--good); }
+  .tag.critical { background: var(--critical-wash); color: var(--critical); }
+
+  .table-scroll { overflow-x: auto; }
+  .empty-row { text-align: center; color: var(--text-muted); padding: 22px 0; font-size: 12.5px; }
+
+  .risk-list { display: flex; flex-direction: column; gap: 12px; }
+  .risk-item { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; border-left: 3px solid var(--risk-color); }
+  .risk-item .r-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .risk-item .r-text { font-size: 12.6px; color: var(--text-primary); margin-bottom: 8px; }
+  .risk-item .r-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--text-muted); }
+  .risk-item .r-meta b { color: var(--text-secondary); font-weight: 600; }
+  .li-badge {
+    font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .li-badge.hi { background: var(--critical-wash); color: var(--critical); }
+  .li-badge.med { background: var(--warning-wash); color: var(--warning-ink); }
+
+  /* ---------- cadence footer ---------- */
+  .cadence-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .cadence-item { background: var(--surface-card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; }
+  .cadence-item .c-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .cadence-item .c-body { font-size: 12.3px; color: var(--text-secondary); }
+
+  footer.note { text-align: center; font-size: 11.5px; color: var(--text-muted); margin-top: 30px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 980px) {
+    .split-row { grid-template-columns: 1fr; }
+    .cadence-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 760px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .cards-row { grid-template-columns: 1fr; }
+    :root { --label-w: 108px; }
+  }
+  @media (max-width: 520px) {
+    body { padding: 0 14px 48px; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+    .cadence-grid { grid-template-columns: 1fr; }
+    header.top { flex-direction: column; align-items: flex-start; }
+    .asof { text-align: left; }
+  }
+
+</style>
+
+<div id="sample-banner">
+  <div class="inner">
+    <span><strong>Sample data.</strong> Names, dates, and owners below are illustrative — edit the <code class="mono">COMPETITIONS</code>, <code class="mono">TASKS</code> and <code class="mono">RISKS</code> arrays near the top of the script to reflect your actual competitions.</span>
+    <button type="button" id="dismiss-banner">Got it</button>
+  </div>
+</div>
+
+<main>
+  <header class="top">
+    <div>
+      <p class="eyebrow">Portfolio status</p>
+      <h1>Challenge Launch Console</h1>
+      <p class="sub">Three prize competitions, one launch window — Stage&nbsp;1 opens for all three within the same eleven days.</p>
+    </div>
+    <div class="asof">
+      <div class="label">As of</div>
+      <div class="date mono" id="asof-date">—</div>
+    </div>
+  </header>
+
+  <section class="kpi-row" id="kpi-row" aria-label="Portfolio summary"></section>
+
+  <section>
+    <h2>Competitions</h2>
+    <p class="section-sub">Launch readiness and status for each competition in the portfolio.</p>
+    <div class="cards-row" id="cards-row"></div>
+  </section>
+
+  <section>
+    <h2>Shared launch timeline</h2>
+    <p class="section-sub">All three schedules on one axis — the view that only exists because they run at once.</p>
+    <div class="timeline-card">
+      <div class="timeline-legend">
+        <span class="item"><span class="leg-bar"></span> Submission window (bold = next up)</span>
+        <span class="item"><span class="leg-diamond"></span> Convening (single day)</span>
+        <span class="item"><span class="leg-today"></span> Today</span>
+      </div>
+      <div class="tl-scroll">
+        <div class="tl-inner" id="tl-inner">
+          <div class="tl-axis" id="tl-axis"></div>
+          <div class="tl-rows" id="tl-rows"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="split-row">
+    <div class="panel" id="tasks">
+      <h2>Action items</h2>
+      <p class="section-sub">Sorted by due date. Filter by competition or status.</p>
+      <div class="filter-row">
+        <div class="group" id="filter-comp" role="group" aria-label="Filter by competition"></div>
+        <div class="group" id="filter-status" role="group" aria-label="Filter by status"></div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th style="width:34px">Comp</th><th>Task</th><th>Owner</th><th>Due</th><th>Status</th></tr>
+          </thead>
+          <tbody id="tasks-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Risk register</h2>
+      <p class="section-sub">What could slip, and who's already mitigating it.</p>
+      <div class="risk-list" id="risk-list"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Communications cadence</h2>
+    <p class="section-sub">Standing rhythm across the portfolio while all three stay in active stage windows.</p>
+    <div class="cadence-grid">
+      <div class="cadence-item"><div class="c-label">Status call</div><div class="c-body">Weekly with the COR during active stage windows; biweekly otherwise.</div></div>
+      <div class="cadence-item"><div class="c-label">Progress report</div><div class="c-body">Monthly, written — participation, review status, risks, spend.</div></div>
+      <div class="cadence-item"><div class="c-label">Stage-close report</div><div class="c-body">Filed after every winners announcement, per competition.</div></div>
+      <div class="cadence-item"><div class="c-label">Competitor inbox</div><div class="c-body">Monitored, with a published response-time commitment.</div></div>
+    </div>
+  </section>
+
+  <footer class="note">Variance over five business days on any public date escalates to the COR with options within two business days.</footer>
+</main>
+
+<div class="tooltip" id="tooltip" hidden role="status"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============ SAMPLE DATA — edit this block ============ */
+  var AS_OF = parseDate('2026-09-18');
+
+  var COMPETITIONS = [
+    {
+      id: 'c1', num: '1', color: '--c1', fg: '--c1-fg', wash: '--c1-wash', ink: '--c1-ink',
+      name: '[Challenge name]', agency: '[Sponsoring agency / office]',
+      owner: '[Program Manager]', status: 'on-track', readiness: 82,
+      stages: [
+        { label: 'Stage 1', abbr: 'S1', type: 'range', start: '2026-09-22', end: '2026-11-03', announce: '2026-12-01' },
+        { label: 'Milestone 1', abbr: 'M1', type: 'range', start: '2026-12-15', end: '2027-02-09', announce: '2027-03-09' },
+        { label: 'Milestone 2', abbr: 'M2', type: 'range', start: '2027-03-23', end: '2027-06-15', announce: '2027-07-13' },
+        { label: 'Convening', abbr: 'CV', type: 'point', date: '2027-08-10' }
+      ]
+    },
+    {
+      id: 'c2', num: '2', color: '--c2', fg: '--c2-fg', wash: '--c2-wash', ink: '--c2-ink',
+      name: '[Challenge name]', agency: '[Sponsoring agency / office]',
+      owner: '[Program Manager]', status: 'at-risk', readiness: 54,
+      stages: [
+        { label: 'Stage 1', abbr: 'S1', type: 'range', start: '2026-09-22', end: '2026-10-20', announce: '2026-11-17' },
+        { label: 'Milestone 1', abbr: 'M1', type: 'range', start: '2026-12-01', end: '2027-01-26', announce: '2027-02-23' },
+        { label: 'Milestone 2', abbr: 'M2', type: 'range', start: '2027-03-09', end: '2027-05-18', announce: '2027-06-15' },
+        { label: 'Convening', abbr: 'CV', type: 'point', date: '2027-07-20' }
+      ]
+    },
+    {
+      id: 'c3', num: '3', color: '--c3', fg: '--c3-fg', wash: '--c3-wash', ink: '--c3-ink',
+      name: '[Challenge name]', agency: '[Sponsoring agency / office]',
+      owner: '[Program Manager]', status: 'on-track', readiness: 68,
+      stages: [
+        { label: 'Stage 1', abbr: 'S1', type: 'range', start: '2026-09-29', end: '2026-11-24', announce: '2026-12-22' },
+        { label: 'Milestone 1', abbr: 'M1', type: 'range', start: '2027-01-05', end: '2027-03-16', announce: '2027-04-13' },
+        { label: 'Milestone 2', abbr: 'M2', type: 'range', start: '2027-04-27', end: '2027-07-27', announce: '2027-08-24' },
+        { label: 'Convening', abbr: 'CV', type: 'point', date: '2027-09-21' }
+      ]
+    }
+  ];
+
+  var TASKS = [
+    { comp: 'c1', task: 'Submission platform load test', owner: 'Challenge Ops Lead', due: '2026-09-16', status: 'done' },
+    { comp: 'c1', task: 'COR final rubric sign-off', owner: 'Program Manager', due: '2026-09-15', status: 'done' },
+    { comp: 'c1', task: 'Reviewer conflict-of-interest screening', owner: 'Review Lead', due: '2026-09-20', status: 'progress' },
+    { comp: 'c1', task: 'Launch announcement + press list', owner: 'Outreach Lead', due: '2026-09-21', status: 'progress' },
+
+    { comp: 'c2', task: 'Rubric COR approval (30-day lead time)', owner: 'Program Manager', due: '2026-09-12', status: 'blocked' },
+    { comp: 'c2', task: 'Submission platform build', owner: 'Challenge Ops Lead', due: '2026-09-20', status: 'blocked' },
+    { comp: 'c2', task: 'Monitored inbox + response-time SLA live', owner: 'Challenge Ops Lead', due: '2026-09-19', status: 'todo' },
+    { comp: 'c2', task: 'Reviewer recruitment', owner: 'Review Lead', due: '2026-09-25', status: 'progress' },
+
+    { comp: 'c3', task: 'Stage 1 rules + rubric COR sign-off', owner: 'Program Manager', due: '2026-08-29', status: 'done' },
+    { comp: 'c3', task: 'Section 508 accessibility check', owner: 'Challenge Ops Lead', due: '2026-09-15', status: 'done' },
+    { comp: 'c3', task: 'Cross-domain matchmaking outreach', owner: 'Outreach Lead', due: '2026-09-24', status: 'progress' },
+    { comp: 'c3', task: 'Reviewer conflict screening', owner: 'Review Lead', due: '2026-09-26', status: 'todo' }
+  ];
+
+  var RISKS = [
+    { scope: 'c2', likelihood: 'High', impact: 'High', owner: 'Program Manager',
+      text: 'Rubric COR approval is overdue against the 30-day lead-time rule, putting the Sep 22 Stage 1 open date at risk.',
+      mitigation: 'Escalated to the COR on Sep 17; the public date holds only if approval lands by Sep 19 — the 5-business-day variance threshold.' },
+    { scope: 'portfolio', likelihood: 'High', impact: 'Medium', owner: 'Program Manager',
+      text: 'All three Stage 1 launches fall in the same week, concentrating Challenge Ops Lead bandwidth.',
+      mitigation: 'Stagger go-live checklists 3–4 days apart per competition; Review Lead on call as launch-week backup.' },
+    { scope: 'c3', likelihood: 'Medium', impact: 'High', owner: 'Review Lead',
+      text: 'SME reviewer bench depth across a multi-year period of performance, in a small expert field.',
+      mitigation: 'Recruit a bench deeper than the seats needed, stagger terms, and refresh conflict screening every stage.' },
+    { scope: 'c1', likelihood: 'Medium', impact: 'Medium', owner: 'Outreach Lead',
+      text: 'Thin applicant pool: the technical specialty is not yet widely represented in the field.',
+      mitigation: 'Named-list recruitment and cross-domain matchmaking ahead of the open call; Stage 1 team formation is the early indicator.' }
+  ];
+  /* ============ end sample data ============ */
+
+  var STATUS_META = {
+    'on-track': { label: 'On track', cls: 'good' },
+    'at-risk': { label: 'At risk', cls: 'warning' },
+    'off-track': { label: 'Off track', cls: 'critical' }
+  };
+  var TASK_META = {
+    todo: { label: 'To do', cls: 'neutral' },
+    progress: { label: 'In progress', cls: 'accent' },
+    blocked: { label: 'Blocked', cls: 'critical' },
+    done: { label: 'Done', cls: 'good' }
+  };
+  var LI_META = { Low: 'med', Medium: 'med', High: 'hi' };
+
+  var compById = {};
+  COMPETITIONS.forEach(function (c) { compById[c.id] = c; });
+
+  /* ---------- date helpers ---------- */
+  function parseDate(s) { return new Date(s + 'T00:00:00'); }
+  function daysBetween(a, b) { return Math.round((b - a) / 86400000); }
+  function fmtShort(d) { return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+  function fmtFull(d) { return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+  function fmtDue(s) { return fmtShort(parseDate(s)); }
+
+  document.getElementById('asof-date').textContent = fmtFull(AS_OF);
+
+  /* ============ KPI row ============ */
+  function renderKPIs() {
+    var el = document.getElementById('kpi-row');
+    var openTasks = TASKS.filter(function (t) { return t.status !== 'done'; }).length;
+    var blocked = TASKS.filter(function (t) { return t.status === 'blocked'; }).length;
+
+    var nextStarts = [];
+    COMPETITIONS.forEach(function (c) {
+      c.stages.forEach(function (s) {
+        var d = parseDate(s.start || s.date);
+        if (d >= AS_OF) nextStarts.push({ d: d, comp: c });
+      });
+    });
+    nextStarts.sort(function (a, b) { return a.d - b.d; });
+    var soonestDate = nextStarts.length ? nextStarts[0].d : null;
+    var soonestComps = soonestDate ? nextStarts.filter(function (n) { return +n.d === +soonestDate; }).map(function (n) { return n.comp.num; }) : [];
+
+    var tiles = [
+      { label: 'Competitions in launch window', value: String(COMPETITIONS.length), caption: 'Stage 1 opens within 11 days, portfolio-wide' },
+      { label: 'Next Stage 1 open', value: soonestDate ? (daysBetween(AS_OF, soonestDate) + 'd') : '—',
+        caption: soonestDate ? (fmtShort(soonestDate) + ' · Competition' + (soonestComps.length > 1 ? 's ' : ' ') + soonestComps.join(' & ')) : '' },
+      { label: 'Open action items', value: String(openTasks), caption: 'across all 3 competitions' },
+      { label: 'Blocked items', value: String(blocked), caption: blocked ? 'needs PM attention now' : 'nothing blocked', cls: blocked ? 'crit' : '' }
+    ];
+
+    tiles.forEach(function (t) {
+      var tile = document.createElement('div');
+      tile.className = 'kpi-tile';
+      var label = document.createElement('div'); label.className = 'label'; label.textContent = t.label;
+      var value = document.createElement('div'); value.className = 'value' + (t.cls ? ' ' + t.cls : ''); value.textContent = t.value;
+      var cap = document.createElement('div'); cap.className = 'caption'; cap.textContent = t.caption;
+      tile.appendChild(label); tile.appendChild(value); tile.appendChild(cap);
+      el.appendChild(tile);
+    });
+  }
+
+  /* ============ Competition cards ============ */
+  function renderCards() {
+    var el = document.getElementById('cards-row');
+    COMPETITIONS.forEach(function (c) {
+      var nextStage = c.stages.find(function (s) { return parseDate(s.end || s.date) >= AS_OF; }) || c.stages[0];
+      var startDate = parseDate(nextStage.start || nextStage.date);
+      var diff = daysBetween(AS_OF, startDate);
+      var sMeta = STATUS_META[c.status];
+
+      var card = document.createElement('article');
+      card.className = 'comp-card';
+      card.style.setProperty('--card-color', 'var(' + c.color + ')');
+      card.style.setProperty('--card-fg', 'var(' + c.fg + ')');
+      card.style.setProperty('--card-wash', 'var(' + c.wash + ')');
+      card.style.setProperty('--card-ink', 'var(' + c.ink + ')');
+
+      var head = document.createElement('div'); head.className = 'card-head';
+      var badge = document.createElement('div'); badge.className = 'badge'; badge.textContent = c.num;
+      var titles = document.createElement('div'); titles.className = 'titles';
+      var name = document.createElement('div'); name.className = 'name'; name.textContent = c.name;
+      var agency = document.createElement('div'); agency.className = 'agency'; agency.textContent = c.agency;
+      titles.appendChild(name); titles.appendChild(agency);
+      var pill = document.createElement('span'); pill.className = 'status-pill ' + sMeta.cls; pill.textContent = sMeta.label;
+      head.appendChild(badge); head.appendChild(titles); head.appendChild(pill);
+
+      var countdown = document.createElement('div'); countdown.className = 'countdown';
+      var n = document.createElement('span'); n.className = 'n';
+      n.textContent = diff > 0 ? ('in ' + diff + 'd') : (diff === 0 ? 'today' : (Math.abs(diff) + 'd ago'));
+      var u = document.createElement('span'); u.className = 'u'; u.textContent = nextStage.label + ' opens';
+      var d = document.createElement('div'); d.className = 'd'; d.textContent = fmtFull(startDate);
+      countdown.appendChild(n); countdown.appendChild(u); countdown.appendChild(d);
+      if (c.status === 'at-risk') {
+        var flag = document.createElement('div'); flag.className = 'flag'; flag.textContent = 'Launch date at risk — see risk register';
+        countdown.appendChild(flag);
+      }
+
+      var meterWrap = document.createElement('div'); meterWrap.className = 'meter-wrap';
+      var mLabel = document.createElement('div'); mLabel.className = 'meter-label';
+      var mSpan = document.createElement('span'); mSpan.textContent = 'Launch readiness';
+      var mVal = document.createElement('b'); mVal.textContent = c.readiness + '%';
+      mLabel.appendChild(mSpan); mLabel.appendChild(mVal);
+      var track = document.createElement('div'); track.className = 'meter-track';
+      var fill = document.createElement('div'); fill.className = 'meter-fill'; fill.style.width = c.readiness + '%';
+      track.appendChild(fill);
+      meterWrap.appendChild(mLabel); meterWrap.appendChild(track);
+
+      var ownerRow = document.createElement('div'); ownerRow.className = 'owner-row';
+      var ownerSpan = document.createElement('span'); ownerSpan.className = 'owner'; ownerSpan.textContent = c.owner;
+      var codeSpan = document.createElement('span'); codeSpan.className = 'mono'; codeSpan.textContent = 'COMP-' + c.num;
+      ownerRow.appendChild(ownerSpan); ownerRow.appendChild(codeSpan);
+
+      var link = document.createElement('a'); link.className = 'card-link'; link.href = '#tasks';
+      link.textContent = 'View action items →';
+      link.addEventListener('click', function () { setCompFilter(c.id); });
+
+      card.appendChild(head);
+      card.appendChild(countdown);
+      card.appendChild(meterWrap);
+      card.appendChild(ownerRow);
+      card.appendChild(link);
+      el.appendChild(card);
+    });
+  }
+
+  /* ============ Timeline ============ */
+  function renderTimeline() {
+    var allDates = [];
+    COMPETITIONS.forEach(function (c) {
+      c.stages.forEach(function (s) {
+        allDates.push(parseDate(s.start || s.date));
+        allDates.push(parseDate(s.end || s.date));
+      });
+    });
+    allDates.push(AS_OF);
+    var domainStart = new Date(Math.min.apply(null, allDates));
+    var domainEnd = new Date(Math.max.apply(null, allDates));
+    domainStart.setDate(domainStart.getDate() - 10);
+    domainEnd.setDate(domainEnd.getDate() + 14);
+    var domainSpan = domainEnd - domainStart;
+
+    function pct(date) { return ((date - domainStart) / domainSpan) * 100; }
+
+    var axis = document.getElementById('tl-axis');
+    var cursor = new Date(domainStart.getFullYear(), domainStart.getMonth(), 1);
+    if (cursor < domainStart) cursor.setMonth(cursor.getMonth() + 1);
+    while (cursor <= domainEnd) {
+      var tick = document.createElement('div');
+      tick.className = 'tick';
+      tick.style.left = pct(cursor) + '%';
+      tick.textContent = cursor.toLocaleDateString('en-US', { month: 'short', year: cursor.getMonth() === 0 ? 'numeric' : undefined });
+      axis.appendChild(tick);
+      cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+    }
+
+    var rows = document.getElementById('tl-rows');
+    COMPETITIONS.forEach(function (c) {
+      var row = document.createElement('div'); row.className = 'tl-row';
+
+      var label = document.createElement('div'); label.className = 'tl-label';
+      var badge = document.createElement('div'); badge.className = 'badge'; badge.textContent = c.num;
+      badge.style.background = 'var(' + c.color + ')'; badge.style.color = 'var(' + c.fg + ')';
+      var lname = document.createElement('div'); lname.className = 'lname'; lname.textContent = c.name;
+      label.appendChild(badge); label.appendChild(lname);
+      row.appendChild(label);
+
+      var emphasisIdx = c.stages.findIndex(function (s) { return parseDate(s.end || s.date) >= AS_OF; });
+      if (emphasisIdx === -1) emphasisIdx = c.stages.length - 1;
+
+      c.stages.forEach(function (s, i) {
+        var isEmphasis = i === emphasisIdx;
+        if (s.type === 'range') {
+          var start = parseDate(s.start), end = parseDate(s.end);
+          var left = pct(start), width = Math.max(pct(end) - pct(start), 1.4);
+          var block = document.createElement('div');
+          block.className = 'stage-block ' + (isEmphasis ? 'solid' : 'wash');
+          block.style.left = left + '%';
+          block.style.width = width + '%';
+          block.style.setProperty('--blk-color', 'var(' + c.color + ')');
+          block.style.setProperty('--blk-fg', 'var(' + c.fg + ')');
+          block.style.setProperty('--blk-wash', 'var(' + c.wash + ')');
+          block.tabIndex = 0;
+          if (isEmphasis) {
+            block.textContent = s.abbr;
+          } else {
+            var above = document.createElement('span');
+            above.className = 'above-label';
+            above.textContent = s.abbr;
+            block.appendChild(above);
+          }
+          attachTooltip(block, s.label + ' · ' + c.name, fmtShort(start) + ' – ' + fmtShort(end) + '  ·  winners announced ' + fmtShort(parseDate(s.announce)));
+          row.appendChild(block);
+        } else {
+          var date = parseDate(s.date);
+          var pt = document.createElement('div');
+          pt.className = 'tl-point';
+          pt.style.left = pct(date) + '%';
+          pt.style.background = 'var(' + c.color + ')';
+          pt.tabIndex = 0;
+          attachTooltip(pt, s.label + ' · ' + c.name, fmtFull(date));
+          row.appendChild(pt);
+        }
+      });
+
+      rows.appendChild(row);
+    });
+
+    // "Today" marker spans the full row block; appended into .tl-rows so its
+    // left:% resolves against the same (label-column-excluded) track width
+    // that the stage blocks above use — keeping both perfectly aligned.
+    var today = document.createElement('div');
+    today.className = 'tl-today';
+    today.style.left = pct(AS_OF) + '%';
+    var lbl = document.createElement('div'); lbl.className = 'lbl'; lbl.textContent = 'Today';
+    today.appendChild(lbl);
+    rows.appendChild(today);
+  }
+
+  /* ---------- shared tooltip ---------- */
+  var tooltipEl = document.getElementById('tooltip');
+  function attachTooltip(target, title, line) {
+    function show(evt) {
+      var titleNode = document.createElement('div'); titleNode.className = 't-title'; titleNode.textContent = title;
+      var lineNode = document.createElement('div'); lineNode.className = 't-line'; lineNode.textContent = line;
+      tooltipEl.textContent = '';
+      tooltipEl.appendChild(titleNode); tooltipEl.appendChild(lineNode);
+      tooltipEl.hidden = false;
+      position(evt);
+    }
+    function position(evt) {
+      var x = evt.clientX !== undefined ? evt.clientX : target.getBoundingClientRect().left;
+      var y = evt.clientY !== undefined ? evt.clientY : target.getBoundingClientRect().top;
+      var pad = 14;
+      var tw = tooltipEl.offsetWidth || 200;
+      var left = Math.min(Math.max(x + pad, pad), window.innerWidth - tw - pad);
+      tooltipEl.style.left = left + 'px';
+      tooltipEl.style.top = (y + pad + 10) + 'px';
+    }
+    function hide() { tooltipEl.hidden = true; }
+    target.addEventListener('pointerenter', show);
+    target.addEventListener('pointermove', position);
+    target.addEventListener('pointerleave', hide);
+    target.addEventListener('focus', function (e) {
+      var r = target.getBoundingClientRect();
+      show({ clientX: r.left + r.width / 2, clientY: r.bottom });
+    });
+    target.addEventListener('blur', hide);
+  }
+
+  /* ============ Tasks table ============ */
+  var activeComp = 'all';
+  var activeStatus = 'all';
+
+  function setCompFilter(id) {
+    activeComp = id;
+    document.querySelectorAll('#filter-comp .chip').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.val === id ? 'true' : 'false');
+    });
+    renderTasks();
+  }
+
+  function renderFilters() {
+    var compGroup = document.getElementById('filter-comp');
+    var opts = [{ val: 'all', label: 'All competitions' }].concat(
+      COMPETITIONS.map(function (c) { return { val: c.id, label: 'Comp ' + c.num }; })
+    );
+    opts.forEach(function (o) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = o.label; b.dataset.val = o.val;
+      b.setAttribute('aria-pressed', o.val === 'all' ? 'true' : 'false');
+      b.addEventListener('click', function () { setCompFilter(o.val); });
+      compGroup.appendChild(b);
+    });
+
+    var statusGroup = document.getElementById('filter-status');
+    var sOpts = [{ val: 'all', label: 'All statuses', cls: '' }].concat(
+      Object.keys(TASK_META).map(function (k) { return { val: k, label: TASK_META[k].label, cls: 's-' + k }; })
+    );
+    sOpts.forEach(function (o) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip ' + o.cls; b.textContent = o.label; b.dataset.val = o.val;
+      b.setAttribute('aria-pressed', o.val === 'all' ? 'true' : 'false');
+      b.addEventListener('click', function () {
+        activeStatus = o.val;
+        statusGroup.querySelectorAll('.chip').forEach(function (x) { x.setAttribute('aria-pressed', x.dataset.val === o.val ? 'true' : 'false'); });
+        renderTasks();
+      });
+      statusGroup.appendChild(b);
+    });
+  }
+
+  function renderTasks() {
+    var body = document.getElementById('tasks-body');
+    body.textContent = '';
+    var rows = TASKS.filter(function (t) {
+      return (activeComp === 'all' || t.comp === activeComp) && (activeStatus === 'all' || t.status === activeStatus);
+    }).slice().sort(function (a, b) { return parseDate(a.due) - parseDate(b.due); });
+
+    if (!rows.length) {
+      var tr = document.createElement('tr');
+      var td = document.createElement('td'); td.colSpan = 5; td.className = 'empty-row'; td.textContent = 'No action items match these filters.';
+      tr.appendChild(td); body.appendChild(tr);
+      return;
+    }
+
+    rows.forEach(function (t) {
+      var comp = compById[t.comp];
+      var dueDate = parseDate(t.due);
+      var overdue = t.status !== 'done' && dueDate < AS_OF;
+      var soon = !overdue && t.status !== 'done' && daysBetween(AS_OF, dueDate) <= 2 && daysBetween(AS_OF, dueDate) >= 0;
+
+      var tr = document.createElement('tr');
+
+      var tdBadge = document.createElement('td');
+      var badge = document.createElement('span'); badge.className = 'badge'; badge.style.width = '22px'; badge.style.height = '22px'; badge.style.fontSize = '11px';
+      badge.style.background = 'var(' + comp.color + ')'; badge.style.color = 'var(' + comp.fg + ')'; badge.textContent = comp.num;
+      tdBadge.appendChild(badge);
+
+      var tdTask = document.createElement('td'); tdTask.textContent = t.task;
+      var tdOwner = document.createElement('td'); tdOwner.className = 'owner'; tdOwner.textContent = t.owner;
+
+      var tdDue = document.createElement('td'); tdDue.className = 'due';
+      tdDue.appendChild(document.createTextNode(fmtDue(t.due)));
+      if (overdue) { var tag = document.createElement('span'); tag.className = 'due-tag overdue'; tag.textContent = 'Overdue'; tdDue.appendChild(tag); }
+      else if (soon) { var tag2 = document.createElement('span'); tag2.className = 'due-tag soon'; tag2.textContent = 'Due soon'; tdDue.appendChild(tag2); }
+
+      var tdStatus = document.createElement('td');
+      var meta = TASK_META[t.status];
+      var stag = document.createElement('span'); stag.className = 'tag ' + meta.cls; stag.textContent = meta.label;
+      tdStatus.appendChild(stag);
+
+      tr.appendChild(tdBadge); tr.appendChild(tdTask); tr.appendChild(tdOwner); tr.appendChild(tdDue); tr.appendChild(tdStatus);
+      body.appendChild(tr);
+    });
+  }
+
+  /* ============ Risk register ============ */
+  function renderRisks() {
+    var el = document.getElementById('risk-list');
+    RISKS.forEach(function (r) {
+      var item = document.createElement('div'); item.className = 'risk-item';
+      var color = r.scope === 'portfolio' ? '--text-muted' : compById[r.scope].color;
+      item.style.setProperty('--risk-color', 'var(' + color + ')');
+
+      var head = document.createElement('div'); head.className = 'r-head';
+      var scopeBadge = document.createElement('span');
+      if (r.scope === 'portfolio') {
+        scopeBadge.className = 'badge outline'; scopeBadge.style.width = 'auto'; scopeBadge.style.padding = '0 8px'; scopeBadge.style.fontSize = '10.5px';
+        scopeBadge.textContent = 'All 3';
+      } else {
+        var comp = compById[r.scope];
+        scopeBadge.className = 'badge'; scopeBadge.style.width = '22px'; scopeBadge.style.height = '22px'; scopeBadge.style.fontSize = '11px';
+        scopeBadge.style.background = 'var(' + comp.color + ')'; scopeBadge.style.color = 'var(' + comp.fg + ')';
+        scopeBadge.textContent = comp.num;
+      }
+      var liWrap = document.createElement('span'); liWrap.style.display = 'flex'; liWrap.style.gap = '5px';
+      var liB = document.createElement('span'); liB.className = 'li-badge ' + LI_META[r.likelihood]; liB.textContent = 'L: ' + r.likelihood;
+      var imB = document.createElement('span'); imB.className = 'li-badge ' + LI_META[r.impact]; imB.textContent = 'I: ' + r.impact;
+      liWrap.appendChild(liB); liWrap.appendChild(imB);
+      head.appendChild(scopeBadge); head.appendChild(liWrap);
+
+      var text = document.createElement('div'); text.className = 'r-text'; text.textContent = r.text;
+      var mit = document.createElement('div'); mit.className = 'r-text';
+      var mitLabel = document.createElement('b'); mitLabel.textContent = 'Mitigation: ';
+      mit.appendChild(mitLabel); mit.appendChild(document.createTextNode(r.mitigation));
+
+      var meta = document.createElement('div'); meta.className = 'r-meta';
+      var owner = document.createElement('span'); var ob = document.createElement('b'); ob.textContent = 'Owner '; owner.appendChild(ob); owner.appendChild(document.createTextNode(r.owner));
+      meta.appendChild(owner);
+
+      item.appendChild(head); item.appendChild(text); item.appendChild(mit); item.appendChild(meta);
+      el.appendChild(item);
+    });
+  }
+
+  /* ============ sample banner dismiss ============ */
+  (function initBanner() {
+    var banner = document.getElementById('sample-banner');
+    var btn = document.getElementById('dismiss-banner');
+    try {
+      if (localStorage.getItem('cc-dashboard-banner-dismissed') === '1') banner.hidden = true;
+    } catch (e) {}
+    btn.addEventListener('click', function () {
+      banner.hidden = true;
+      try { localStorage.setItem('cc-dashboard-banner-dismissed', '1'); } catch (e) {}
+    });
+  })();
+
+  renderKPIs();
+  renderCards();
+  renderTimeline();
+  renderFilters();
+  renderTasks();
+  renderRisks();
+})();
+</script>
