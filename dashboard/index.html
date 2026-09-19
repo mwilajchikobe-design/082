@@ -340,6 +340,51 @@
   .li-badge.hi { background: var(--critical-wash); color: var(--critical); }
   .li-badge.med { background: var(--warning-wash); color: var(--warning-ink); }
 
+  /* ---------- cross-functional load ---------- */
+  .kpi-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .workload-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .workload-card {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 18px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .wc-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .wc-head h3 { font-size: 15px; }
+  .wc-head .wc-count { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+  .wc-section-label {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .wc-list { display: flex; flex-direction: column; gap: 6px; }
+  .wc-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.3px; color: var(--text-secondary); }
+  .wc-item .badge { width: 18px; height: 18px; font-size: 9.5px; border-radius: 5px; flex: none; margin-top: 1px; }
+  .wc-item b { color: var(--text-primary); font-weight: 600; }
+  .wc-group { display: flex; flex-direction: column; gap: 8px; }
+  .wc-group + .wc-group { border-top: 1px solid var(--gridline); padding-top: 8px; }
+  .wc-group-head { display: flex; align-items: center; gap: 8px; }
+  .wc-group-head .badge { width: 20px; height: 20px; font-size: 10.5px; border-radius: 6px; }
+  .wc-group-head .wc-group-name { font-size: 12.3px; font-style: italic; color: var(--text-secondary); }
+  .wc-group-head .wc-group-count { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+  .wc-group ul { margin: 0; padding-left: 30px; display: flex; flex-direction: column; gap: 3px; }
+  .wc-group li { font-size: 11.8px; color: var(--text-secondary); }
+
+  .fin-callout { padding: 10px 12px; background: var(--accent-wash); border-radius: 10px; }
+  .fin-callout .fc-value { font-family: var(--font-display); font-size: 22px; font-weight: 800; }
+  .fin-callout .fc-label { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; }
+
+  .fin-row { display: flex; gap: 8px; align-items: flex-start; }
+  .fin-row .badge { width: 20px; height: 20px; font-size: 10.5px; border-radius: 6px; flex: none; margin-top: 1px; }
+  .fin-row-main { flex: 1; min-width: 0; }
+  .fin-row-top { display: flex; justify-content: space-between; font-size: 12.3px; margin-bottom: 4px; }
+  .fin-row-top .fin-label { color: var(--text-primary); font-weight: 500; }
+  .fin-row-top .fin-value { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .fin-track { height: 8px; border-radius: 100px; background: var(--surface-sunken); overflow: hidden; }
+  .fin-fill { height: 100%; border-radius: 100px; }
+  .fin-detail { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  .wc-note { font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--gridline); padding-top: 8px; }
+
+  @media (max-width: 760px) { .kpi-row-3 { grid-template-columns: 1fr; } .workload-cards { grid-template-columns: 1fr; } }
+
   /* ---------- cadence footer ---------- */
   .cadence-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .cadence-item { background: var(--surface-card); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; }
@@ -437,6 +482,13 @@
       <p class="section-sub">What could slip, and who's already mitigating it.</p>
       <div class="risk-list" id="risk-list"></div>
     </div>
+  </section>
+
+  <section>
+    <h2>Cross-functional load</h2>
+    <p class="section-sub">What this portfolio asks of Marketing, BIS, and FinOps between now and end of 2027 &mdash; itemized against the RFTPs and proposals, not a reported actual.</p>
+    <div class="kpi-row-3" id="workload-kpis"></div>
+    <div class="workload-cards" id="workload-cards" style="margin-top:14px"></div>
   </section>
 
   <section>
@@ -563,7 +615,50 @@
       text: 'A Phase 2 team could reach the demonstration facility without its own IRB determination.',
       mitigation: 'Tracked in every monthly team check-in through Phase 2.' }
   ];
-  /* ============ end sample data ============ */
+
+  /* Cross-functional load, now through end of 2027 — Claude's itemized read of
+     the RFTPs/proposal narratives (see dashboard/README.md), not a reported
+     actual. FinOps figures are FedTech-deployed purse only: NOIS3-073's $7.1M
+     is paid directly by NIH and excluded. */
+  var WORKLOAD = {
+    finops: {
+      months: [
+        { comp: 'c3', label: 'May 2027', amount: 1050000,
+          detail: 'NOIS3-081 Phase 1 payout (10 × $75,000) + Phase 2 selection awards (5 × $60,000)' },
+        { comp: 'c1', label: 'Jun 2027', amount: 1000000,
+          detail: 'NOIS3-085 Phase 1 purse (up to 40 × $25,000)' },
+        { comp: 'c3', label: 'Dec 2027', amount: 200000,
+          detail: 'NOIS3-081 Phase 2 prototype-review awards (5 × $40,000)' }
+      ],
+      outsideWindow: 250000,
+      outsideNote: 'NOIS3-081 Phase 2 delivery awards ($50,000) and all of Phase 3 ($200,000) land in 2028 — Phase 3 winners aren’t announced until March 2028.'
+    },
+    marketing: {
+      webProperties: [
+        { comp: 'c1', name: 'Splash page (Quantum World Congress)' },
+        { comp: 'c1', name: 'Main competition site' },
+        { comp: 'c2', name: 'Main competition site' },
+        { comp: 'c3', name: 'Main competition site' }
+      ],
+      campaigns: [
+        { comp: 'c1', items: ['Launch announcement', 'Quantum World Congress splash/postcard push', '~280-org named-target recruitment', 'Collaborator-webinar promotion', 'Registrant Q&A webinar', 'Winners announcement (May 2027)'] },
+        { comp: 'c2', items: ['Dual-track launch announcement', 'Quantum-channel recruitment', 'NAMs/toxicology-channel recruitment', 'Pre-Stage-1 workshops', 'Stage 1 Q&A webinar', 'Stage 1 winners announcement (Nov 2027)', 'Pre-Stage-2-Milestone-1 workshops'] },
+        { comp: 'c3', items: ['Launch/recruitment campaign', 'First webinar', 'Phase 1 winners announcement (Apr 2027)', 'Second webinar', 'Third webinar', 'Phase 2 prototype-review announcement (Nov 2027)'] }
+      ]
+    },
+    bis: {
+      platforms: [
+        { comp: 'c1', name: 'Splash page' },
+        { comp: 'c1', name: 'Competition website + submission platform' },
+        { comp: 'c1', name: 'Judging/evaluation database' },
+        { comp: 'c2', name: 'Competition website + submission platform' },
+        { comp: 'c2', name: 'Judging/evaluation database' },
+        { comp: 'c3', name: 'Competition website + submission platform' },
+        { comp: 'c3', name: 'Judging/evaluation database' }
+      ]
+    }
+  };
+  /* ============ end data ============ */
 
   var STATUS_META = {
     'on-track': { label: 'On track', cls: 'good' },
@@ -968,6 +1063,132 @@
     });
   }
 
+  /* ============ Cross-functional load ============ */
+  function renderWorkload() {
+    var finopsTotal = WORKLOAD.finops.months.reduce(function (sum, m) { return sum + m.amount; }, 0);
+    var marketingCampaignCount = WORKLOAD.marketing.campaigns.reduce(function (sum, g) { return sum + g.items.length; }, 0);
+    var marketingTotal = WORKLOAD.marketing.webProperties.length + marketingCampaignCount;
+    var bisTotal = WORKLOAD.bis.platforms.length;
+    var maxMonth = Math.max.apply(null, WORKLOAD.finops.months.map(function (m) { return m.amount; }));
+
+    function fmtUSD(n) { return '$' + n.toLocaleString('en-US'); }
+    function fmtM(n) { return '$' + (n / 1000000).toFixed(n % 1000000 === 0 ? 0 : 2) + 'M'; }
+    function wcItem(compId, name) {
+      var comp = compById[compId];
+      var item = document.createElement('div'); item.className = 'wc-item';
+      var badge = document.createElement('span'); badge.className = 'badge';
+      badge.style.background = 'var(' + comp.color + ')'; badge.style.color = 'var(' + comp.fg + ')'; badge.textContent = comp.num;
+      var text = document.createElement('span'); text.textContent = name;
+      item.appendChild(badge); item.appendChild(text);
+      return item;
+    }
+    function wcGroup(compId, items) {
+      var comp = compById[compId];
+      var group = document.createElement('div'); group.className = 'wc-group';
+      var head = document.createElement('div'); head.className = 'wc-group-head';
+      var badge = document.createElement('span'); badge.className = 'badge';
+      badge.style.background = 'var(' + comp.color + ')'; badge.style.color = 'var(' + comp.fg + ')'; badge.textContent = comp.num;
+      var name = document.createElement('span'); name.className = 'wc-group-name'; name.textContent = 'Comp ' + comp.num;
+      var count = document.createElement('span'); count.className = 'wc-group-count'; count.textContent = items.length + ' campaigns';
+      head.appendChild(badge); head.appendChild(name); head.appendChild(count);
+      var ul = document.createElement('ul');
+      items.forEach(function (it) { var li = document.createElement('li'); li.textContent = it; ul.appendChild(li); });
+      group.appendChild(head); group.appendChild(ul);
+      return group;
+    }
+
+    var kpiEl = document.getElementById('workload-kpis');
+    [
+      { label: 'Marketing deliverables', value: String(marketingTotal), caption: WORKLOAD.marketing.webProperties.length + ' web properties + ' + marketingCampaignCount + ' campaigns' },
+      { label: 'Platforms to build', value: String(bisTotal), caption: 'Across all 3 competitions — BIS' },
+      { label: 'Prize $ to deploy', value: fmtM(finopsTotal), caption: 'FedTech-paid purse only — FinOps' }
+    ].forEach(function (t) {
+      var tile = document.createElement('div'); tile.className = 'kpi-tile';
+      var label = document.createElement('div'); label.className = 'label'; label.textContent = t.label;
+      var value = document.createElement('div'); value.className = 'value'; value.textContent = t.value;
+      var cap = document.createElement('div'); cap.className = 'caption'; cap.textContent = t.caption;
+      tile.appendChild(label); tile.appendChild(value); tile.appendChild(cap);
+      kpiEl.appendChild(tile);
+    });
+
+    var cardsEl = document.getElementById('workload-cards');
+
+    var mCard = document.createElement('div'); mCard.className = 'workload-card';
+    var mHead = document.createElement('div'); mHead.className = 'wc-head';
+    var mH3 = document.createElement('h3'); mH3.textContent = 'Marketing';
+    var mCount = document.createElement('span'); mCount.className = 'wc-count';
+    mCount.textContent = WORKLOAD.marketing.webProperties.length + ' sites · ' + marketingCampaignCount + ' campaigns';
+    mHead.appendChild(mH3); mHead.appendChild(mCount);
+    mCard.appendChild(mHead);
+    var wpLabel = document.createElement('div'); wpLabel.className = 'wc-section-label'; wpLabel.textContent = 'Web properties';
+    mCard.appendChild(wpLabel);
+    var wpList = document.createElement('div'); wpList.className = 'wc-list';
+    WORKLOAD.marketing.webProperties.forEach(function (p) { wpList.appendChild(wcItem(p.comp, p.name)); });
+    mCard.appendChild(wpList);
+    var campLabel = document.createElement('div'); campLabel.className = 'wc-section-label'; campLabel.style.marginTop = '4px'; campLabel.textContent = 'Outreach campaigns';
+    mCard.appendChild(campLabel);
+    var campWrap = document.createElement('div'); campWrap.className = 'wc-list';
+    WORKLOAD.marketing.campaigns.forEach(function (g) { campWrap.appendChild(wcGroup(g.comp, g.items)); });
+    mCard.appendChild(campWrap);
+    cardsEl.appendChild(mCard);
+
+    var bCard = document.createElement('div'); bCard.className = 'workload-card';
+    var bHead = document.createElement('div'); bHead.className = 'wc-head';
+    var bH3 = document.createElement('h3'); bH3.textContent = 'BIS';
+    var bCount = document.createElement('span'); bCount.className = 'wc-count'; bCount.textContent = bisTotal + ' platforms';
+    bHead.appendChild(bH3); bHead.appendChild(bCount);
+    bCard.appendChild(bHead);
+    var bLabel = document.createElement('div'); bLabel.className = 'wc-section-label'; bLabel.textContent = 'Platforms to build';
+    bCard.appendChild(bLabel);
+    var bList = document.createElement('div'); bList.className = 'wc-list';
+    WORKLOAD.bis.platforms.forEach(function (p) { bList.appendChild(wcItem(p.comp, p.name)); });
+    bCard.appendChild(bList);
+    cardsEl.appendChild(bCard);
+
+    var fCard = document.createElement('div'); fCard.className = 'workload-card';
+    var fHead = document.createElement('div'); fHead.className = 'wc-head';
+    var fH3 = document.createElement('h3'); fH3.textContent = 'FinOps';
+    var fCount = document.createElement('span'); fCount.className = 'wc-count'; fCount.textContent = fmtUSD(finopsTotal);
+    fHead.appendChild(fH3); fHead.appendChild(fCount);
+    fCard.appendChild(fHead);
+
+    var concentrated = WORKLOAD.finops.months.slice(0, 2).reduce(function (s, m) { return s + m.amount; }, 0);
+    var callout = document.createElement('div'); callout.className = 'fin-callout';
+    var fcValue = document.createElement('div'); fcValue.className = 'fc-value';
+    fcValue.textContent = Math.round(concentrated / finopsTotal * 100) + '% in 6 weeks';
+    var fcLabel = document.createElement('div'); fcLabel.className = 'fc-label';
+    fcLabel.textContent = fmtUSD(concentrated) + ' of ' + fmtUSD(finopsTotal) + ' lands late Apr–Jun 2027';
+    callout.appendChild(fcValue); callout.appendChild(fcLabel);
+    fCard.appendChild(callout);
+
+    var chart = document.createElement('div'); chart.className = 'wc-list';
+    WORKLOAD.finops.months.forEach(function (m) {
+      var comp = compById[m.comp];
+      var row = document.createElement('div'); row.className = 'fin-row';
+      var badge = document.createElement('span'); badge.className = 'badge';
+      badge.style.background = 'var(' + comp.color + ')'; badge.style.color = 'var(' + comp.fg + ')'; badge.textContent = comp.num;
+      var main = document.createElement('div'); main.className = 'fin-row-main';
+      var top = document.createElement('div'); top.className = 'fin-row-top';
+      var lbl = document.createElement('span'); lbl.className = 'fin-label'; lbl.textContent = m.label;
+      var val = document.createElement('span'); val.className = 'fin-value'; val.textContent = fmtUSD(m.amount);
+      top.appendChild(lbl); top.appendChild(val);
+      var track = document.createElement('div'); track.className = 'fin-track';
+      var fill = document.createElement('div'); fill.className = 'fin-fill';
+      fill.style.width = (m.amount / maxMonth * 100) + '%'; fill.style.background = 'var(' + comp.color + ')';
+      track.appendChild(fill);
+      var detail = document.createElement('div'); detail.className = 'fin-detail'; detail.textContent = m.detail;
+      main.appendChild(top); main.appendChild(track); main.appendChild(detail);
+      row.appendChild(badge); row.appendChild(main);
+      chart.appendChild(row);
+    });
+    fCard.appendChild(chart);
+
+    var note = document.createElement('div'); note.className = 'wc-note';
+    note.textContent = fmtUSD(WORKLOAD.finops.outsideWindow) + ' more, outside this window: ' + WORKLOAD.finops.outsideNote;
+    fCard.appendChild(note);
+    cardsEl.appendChild(fCard);
+  }
+
   /* ============ sample banner dismiss ============ */
   (function initBanner() {
     var banner = document.getElementById('sample-banner');
@@ -987,5 +1208,6 @@
   renderFilters();
   renderTasks();
   renderRisks();
+  renderWorkload();
 })();
 </script>

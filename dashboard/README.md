@@ -60,6 +60,17 @@ flagged in the on-page banner:
   on the 15th of that month as a neutral placeholder — day-exact dates
   (there are many) are used wherever a source gives one.
 
+## Cross-functional load
+
+A separate section (`WORKLOAD` in the script, rendered by
+`renderWorkload()`) totals what the portfolio asks of Marketing, BIS, and
+FinOps between now and end of 2027 — websites/campaigns, platforms to
+build, and prize dollars to deploy by month. Every count is Claude's
+itemized read of the RFTPs and proposal narratives (the counted items are
+listed in each card, not just totaled), not a reported actual. FinOps
+figures are FedTech-deployed purse only — NOIS3-073's $7.1M purse is paid
+directly by NIH and excluded.
+
 ## Live version
 
 Also published as a Claude Artifact for sharing without cloning the repo:
