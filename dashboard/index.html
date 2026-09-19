@@ -529,7 +529,12 @@
     { comp: 'c3', task: 'Kickoff + Pre-Competition Launch report Part 1', owner: 'Engagement Lead', due: '2026-10-15', status: 'todo' },
     { comp: 'c3', task: 'Rules + participation agreement + rubric to CDC', owner: 'Dr. Denise Smith (SME)', due: '2026-11-01', status: 'todo' },
     { comp: 'c3', task: 'Judge recruitment — 5 external + 2 alternates', owner: 'Engagement Lead', due: '2026-12-01', status: 'todo' },
-    { comp: 'c3', task: 'Website + USA.gov posting + Part 2 report', owner: 'Competition Coordinator', due: '2026-12-15', status: 'todo' }
+    { comp: 'c3', task: 'Website + USA.gov posting + Part 2 report', owner: 'Competition Coordinator', due: '2026-12-15', status: 'todo' },
+
+    { comp: 'portfolio', task: 'Combined general kickoff — CoECI/NASA team + subcontractors', owner: 'Jay Chikobe', due: '2026-10-06', status: 'todo' },
+    { comp: 'portfolio', task: 'Combined training kickoff — CoECI/NASA team + subcontractors', owner: 'Jay Chikobe', due: '2026-10-08', status: 'todo' },
+    { comp: 'portfolio', task: 'BI team kickoff — coordinate effort + resourcing', owner: 'Jay Chikobe', due: '2026-10-10', status: 'todo' },
+    { comp: 'portfolio', task: 'Marketing team kickoff — coordinate effort + resourcing', owner: 'Jay Chikobe', due: '2026-10-10', status: 'todo' }
   ];
 
   var RISKS = [
@@ -888,7 +893,7 @@
     }
 
     rows.forEach(function (t) {
-      var comp = compById[t.comp];
+      var comp = t.comp === 'portfolio' ? null : compById[t.comp];
       var dueDate = parseDate(t.due);
       var overdue = t.status !== 'done' && dueDate < AS_OF;
       var soon = !overdue && t.status !== 'done' && daysBetween(AS_OF, dueDate) <= 2 && daysBetween(AS_OF, dueDate) >= 0;
@@ -896,8 +901,14 @@
       var tr = document.createElement('tr');
 
       var tdBadge = document.createElement('td');
-      var badge = document.createElement('span'); badge.className = 'badge'; badge.style.width = '22px'; badge.style.height = '22px'; badge.style.fontSize = '11px';
-      badge.style.background = 'var(' + comp.color + ')'; badge.style.color = 'var(' + comp.fg + ')'; badge.textContent = comp.num;
+      var badge = document.createElement('span');
+      if (comp) {
+        badge.className = 'badge'; badge.style.width = '22px'; badge.style.height = '22px'; badge.style.fontSize = '11px';
+        badge.style.background = 'var(' + comp.color + ')'; badge.style.color = 'var(' + comp.fg + ')'; badge.textContent = comp.num;
+      } else {
+        badge.className = 'badge outline'; badge.style.width = 'auto'; badge.style.padding = '0 6px'; badge.style.fontSize = '10px';
+        badge.textContent = 'All 3';
+      }
       tdBadge.appendChild(badge);
 
       var tdTask = document.createElement('td'); tdTask.textContent = t.task;
