@@ -238,6 +238,7 @@
     position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--gridline);
     font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); padding-left: 4px;
   }
+  .tl-axis .tick.year { border-left-color: var(--baseline); color: var(--text-secondary); font-weight: 500; }
   .tl-rows { position: relative; margin-left: var(--label-w); }
   .tl-row { position: relative; height: 44px; border-bottom: 1px dashed var(--gridline); }
   .tl-row:last-child { border-bottom: none; }
@@ -369,7 +370,7 @@
 
 <div id="sample-banner">
   <div class="inner">
-    <span><strong>Sample data.</strong> Names, dates, and owners below are illustrative — edit the <code class="mono">COMPETITIONS</code>, <code class="mono">TASKS</code> and <code class="mono">RISKS</code> arrays near the top of the script to reflect your actual competitions.</span>
+    <span><strong>Sourced from each competition's RFTP, proposal narrative, and FedTech's own Gantt.</strong> Status and readiness % are estimates — no live status report exists yet. Dates given only as "Month YYYY" in a source are placed on the 15th as a placeholder. Edit the <code class="mono">COMPETITIONS</code>, <code class="mono">TASKS</code> and <code class="mono">RISKS</code> arrays near the top of the script as real status comes in.</span>
     <button type="button" id="dismiss-banner">Got it</button>
   </div>
 </div>
@@ -379,7 +380,7 @@
     <div>
       <p class="eyebrow">Portfolio status</p>
       <h1>Challenge Launch Console</h1>
-      <p class="sub">Three prize competitions, one launch window — Stage&nbsp;1 opens for all three within the same eleven days.</p>
+      <p class="sub">Three prize competitions, one stand-up window — award and kickoff land within two and a half weeks of each other, September into October 2026.</p>
     </div>
     <div class="asof">
       <div class="label">As of</div>
@@ -440,16 +441,16 @@
 
   <section>
     <h2>Communications cadence</h2>
-    <p class="section-sub">Standing rhythm across the portfolio while all three stay in active stage windows.</p>
+    <p class="section-sub">Cadence differs by competition — each follows its own proposal's stated rhythm.</p>
     <div class="cadence-grid">
-      <div class="cadence-item"><div class="c-label">Status call</div><div class="c-body">Weekly with the COR during active stage windows; biweekly otherwise.</div></div>
-      <div class="cadence-item"><div class="c-label">Progress report</div><div class="c-body">Monthly, written — participation, review status, risks, spend.</div></div>
-      <div class="cadence-item"><div class="c-label">Stage-close report</div><div class="c-body">Filed after every winners announcement, per competition.</div></div>
-      <div class="cadence-item"><div class="c-label">Competitor inbox</div><div class="c-body">Monitored, with a published response-time commitment.</div></div>
+      <div class="cadence-item"><div class="c-label">Status call</div><div class="c-body">Comp 3 biweekly through launch, then monthly · Comp 1 monthly · Comp 2 quarterly per NOIS3 SOW 3.6.</div></div>
+      <div class="cadence-item"><div class="c-label">Progress report</div><div class="c-body">Monthly written status is typical; Comp 2 reports quarterly per SOW 3.6.</div></div>
+      <div class="cadence-item"><div class="c-label">Pre/Post-Competition reports</div><div class="c-body">Filed with the Government per the standard NOIS3 reporting process at kickoff and after every winner announcement.</div></div>
+      <div class="cadence-item"><div class="c-label">Competitor inbox</div><div class="c-body">Monitored public Q&amp;A forum per competition site; one point of contact per competition.</div></div>
     </div>
   </section>
 
-  <footer class="note">Variance over five business days on any public date escalates to the COR with options within two business days.</footer>
+  <footer class="note">Every public product clears Government review before release — 10+ business days for media, up to 30 days for the initial rules package.</footer>
 </main>
 
 <div class="tooltip" id="tooltip" hidden role="status"></div>
@@ -458,75 +459,104 @@
 (function () {
   "use strict";
 
-  /* ============ SAMPLE DATA — edit this block ============ */
-  var AS_OF = parseDate('2026-09-18');
+  /* ============ REAL DATA — sourced from each competition's RFTP, ============ */
+  /* proposal narrative, and FedTech's own Gantt. See dashboard/README.md.      */
+  var AS_OF = parseDate('2026-09-19');
 
   var COMPETITIONS = [
     {
       id: 'c1', num: '1', color: '--c1', fg: '--c1-fg', wash: '--c1-wash', ink: '--c1-ink',
-      name: '[Challenge name]', agency: '[Sponsoring agency / office]',
-      owner: '[Program Manager]', status: 'on-track', readiness: 82,
+      name: 'NSF Quantum Algorithm Challenge', agency: 'U.S. National Science Foundation (NSF)',
+      owner: 'Jay Chikobe — Challenge Program Manager', status: 'on-track', readiness: 15,
+      price: '$1.3M TFP · $1M purse (FedTech-paid)',
       stages: [
-        { label: 'Stage 1', abbr: 'S1', type: 'range', start: '2026-09-22', end: '2026-11-03', announce: '2026-12-01' },
-        { label: 'Milestone 1', abbr: 'M1', type: 'range', start: '2026-12-15', end: '2027-02-09', announce: '2027-03-09' },
-        { label: 'Milestone 2', abbr: 'M2', type: 'range', start: '2027-03-23', end: '2027-06-15', announce: '2027-07-13' },
-        { label: 'Convening', abbr: 'CV', type: 'point', date: '2027-08-10' }
+        { label: 'Project Launch', abbr: 'LNCH', type: 'range', start: '2026-09-16', end: '2026-11-30', detail: 'kickoff, Part 1 report, rules + website to NSF review' },
+        { label: 'Quantum World Congress', abbr: 'QWC', type: 'point', date: '2026-09-23', detail: 'splash page target' },
+        { label: 'Competition Window', abbr: 'OPEN', type: 'range', start: '2026-12-01', end: '2027-03-31', detail: 'submissions open · up to 40 winners × $25,000' },
+        { label: 'Judging & Payout', abbr: 'JDG', type: 'range', start: '2027-04-01', end: '2027-06-30' },
+        { label: 'Winners Announced', abbr: 'WIN', type: 'point', date: '2027-05-20' },
+        { label: 'Phase 2/3 Administration', abbr: 'PH23', type: 'range', start: '2027-07-01', end: '2029-09-30', detail: 'pairing event · 6-mo pilot · 9-mo monitoring' },
+        { label: 'Phase 2 Status Webinar', abbr: 'WEB', type: 'point', date: '2028-02-15' },
+        { label: 'Close-out', abbr: 'DONE', type: 'point', date: '2029-10-01' }
       ]
     },
     {
       id: 'c2', num: '2', color: '--c2', fg: '--c2-fg', wash: '--c2-wash', ink: '--c2-ink',
-      name: '[Challenge name]', agency: '[Sponsoring agency / office]',
-      owner: '[Program Manager]', status: 'at-risk', readiness: 54,
+      name: 'Qu-SAFE Challenge', agency: 'NIH/NCATS + NASA/BPS',
+      owner: 'Jay Chikobe — Program Director', status: 'on-track', readiness: 12,
+      price: '$462K TFP · $7.1M purse (NIH-paid)',
       stages: [
-        { label: 'Stage 1', abbr: 'S1', type: 'range', start: '2026-09-22', end: '2026-10-20', announce: '2026-11-17' },
-        { label: 'Milestone 1', abbr: 'M1', type: 'range', start: '2026-12-01', end: '2027-01-26', announce: '2027-02-23' },
-        { label: 'Milestone 2', abbr: 'M2', type: 'range', start: '2027-03-09', end: '2027-05-18', announce: '2027-06-15' },
-        { label: 'Convening', abbr: 'CV', type: 'point', date: '2027-07-20' }
+        { label: 'Stage 1', abbr: 'S1', type: 'range', start: '2026-10-25', end: '2027-11-15', detail: 'submissions close Jul 2027 · up to 25 winners × $20,000' },
+        { label: 'Stage 2 Milestone 1', abbr: 'M1', type: 'range', start: '2027-12-01', end: '2028-11-15', detail: 'demonstration deadline Jul 2028 · up to 15 winners × $200,000' },
+        { label: 'Stage 2 Milestone 2', abbr: 'M2', type: 'range', start: '2028-11-15', end: '2030-03-15', detail: 'final prototype deadline Nov 2029 · grand prize $840,000 + up to 6 runners-up × $460,000' },
+        { label: 'Convening', abbr: 'CV', type: 'point', date: '2030-05-15', detail: '75–100 attendees, in person' },
+        { label: 'Task Order Closes', abbr: 'DONE', type: 'point', date: '2031-12-31' }
       ]
     },
     {
       id: 'c3', num: '3', color: '--c3', fg: '--c3-fg', wash: '--c3-wash', ink: '--c3-ink',
-      name: '[Challenge name]', agency: '[Sponsoring agency / office]',
-      owner: '[Program Manager]', status: 'on-track', readiness: 68,
+      name: 'Firefighter Safety, Health and Well-being Challenge', agency: 'CDC / NIOSH',
+      owner: 'Robert Wines — Engagement Lead', status: 'on-track', readiness: 4,
+      price: '$1.81M TFP · $1.5M purse (FedTech-paid)',
       stages: [
-        { label: 'Stage 1', abbr: 'S1', type: 'range', start: '2026-09-29', end: '2026-11-24', announce: '2026-12-22' },
-        { label: 'Milestone 1', abbr: 'M1', type: 'range', start: '2027-01-05', end: '2027-03-16', announce: '2027-04-13' },
-        { label: 'Milestone 2', abbr: 'M2', type: 'range', start: '2027-04-27', end: '2027-07-27', announce: '2027-08-24' },
-        { label: 'Convening', abbr: 'CV', type: 'point', date: '2027-09-21' }
+        { label: 'Launch', abbr: 'LNCH', type: 'range', start: '2026-10-01', end: '2027-01-15', detail: 'kickoff, rules + rubric to CDC, judge recruitment, USA.gov posting' },
+        { label: 'Phase 1: Concept', abbr: 'P1', type: 'range', start: '2027-01-15', end: '2027-04-30' },
+        { label: 'Phase 1 Winners', abbr: 'WIN', type: 'point', date: '2027-04-30', detail: 'up to 10 winners × $75,000' },
+        { label: 'Phase 2: Prototyping', abbr: 'P2', type: 'range', start: '2027-05-01', end: '2027-11-30' },
+        { label: 'Phase 2 Prototype Review', abbr: 'REV', type: 'point', date: '2027-11-30', detail: 'up to 5 teams · $60k at selection + $40k at review + $10k at delivery' },
+        { label: 'Phase 3: Demonstration', abbr: 'P3', type: 'range', start: '2027-12-01', end: '2028-03-31' },
+        { label: 'Demonstration', abbr: 'DEMO', type: 'point', date: '2028-02-14', detail: 'government-run, FedTech on-site logistics' },
+        { label: 'Phase 3 Winners', abbr: 'WIN', type: 'point', date: '2028-03-31', detail: '$100,000 + 2 runners-up × $50,000' },
+        { label: 'Close-out', abbr: 'DONE', type: 'range', start: '2028-04-01', end: '2028-06-30' },
+        { label: 'Complete', abbr: 'FIN', type: 'point', date: '2028-06-30' }
       ]
     }
   ];
 
   var TASKS = [
-    { comp: 'c1', task: 'Submission platform load test', owner: 'Challenge Ops Lead', due: '2026-09-16', status: 'done' },
-    { comp: 'c1', task: 'COR final rubric sign-off', owner: 'Program Manager', due: '2026-09-15', status: 'done' },
-    { comp: 'c1', task: 'Reviewer conflict-of-interest screening', owner: 'Review Lead', due: '2026-09-20', status: 'progress' },
-    { comp: 'c1', task: 'Launch announcement + press list', owner: 'Outreach Lead', due: '2026-09-21', status: 'progress' },
+    { comp: 'c1', task: 'Kickoff meeting', owner: 'Program Manager', due: '2026-09-19', status: 'done' },
+    { comp: 'c1', task: 'Part 1 launch report (NSF)', owner: 'Program Manager', due: '2026-09-23', status: 'progress' },
+    { comp: 'c1', task: 'Splash page + postcard for Quantum World Congress', owner: 'Marketing', due: '2026-09-23', status: 'progress' },
+    { comp: 'c1', task: 'Rules + participation agreement to NSF review', owner: 'Program Manager', due: '2026-10-14', status: 'todo' },
+    { comp: 'c1', task: 'USA.gov posting + website', owner: 'Business Intelligence', due: '2026-11-30', status: 'todo' },
+    { comp: 'c1', task: 'Part 2 launch report (NSF)', owner: 'Program Manager', due: '2026-11-24', status: 'todo' },
 
-    { comp: 'c2', task: 'Rubric COR approval (30-day lead time)', owner: 'Program Manager', due: '2026-09-12', status: 'blocked' },
-    { comp: 'c2', task: 'Submission platform build', owner: 'Challenge Ops Lead', due: '2026-09-20', status: 'blocked' },
-    { comp: 'c2', task: 'Monitored inbox + response-time SLA live', owner: 'Challenge Ops Lead', due: '2026-09-19', status: 'todo' },
-    { comp: 'c2', task: 'Reviewer recruitment', owner: 'Review Lead', due: '2026-09-25', status: 'progress' },
+    { comp: 'c2', task: 'Finalize rules with NCATS/NASA BPS', owner: 'Program Director', due: '2026-10-18', status: 'progress' },
+    { comp: 'c2', task: 'Build competition website', owner: 'Challenge Ops', due: '2026-10-18', status: 'progress' },
+    { comp: 'c2', task: 'Assemble reviewer roster (quantum + NAMs/toxicology)', owner: 'Review Lead', due: '2026-10-18', status: 'todo' },
+    { comp: 'c2', task: 'Two pre-Stage-1 workshops', owner: 'Outreach Lead', due: '2026-12-15', status: 'todo' },
 
-    { comp: 'c3', task: 'Stage 1 rules + rubric COR sign-off', owner: 'Program Manager', due: '2026-08-29', status: 'done' },
-    { comp: 'c3', task: 'Section 508 accessibility check', owner: 'Challenge Ops Lead', due: '2026-09-15', status: 'done' },
-    { comp: 'c3', task: 'Cross-domain matchmaking outreach', owner: 'Outreach Lead', due: '2026-09-24', status: 'progress' },
-    { comp: 'c3', task: 'Reviewer conflict screening', owner: 'Review Lead', due: '2026-09-26', status: 'todo' }
+    { comp: 'c3', task: 'Kickoff + Pre-Competition Launch report Part 1', owner: 'Engagement Lead', due: '2026-10-15', status: 'todo' },
+    { comp: 'c3', task: 'Rules + participation agreement + rubric to CDC', owner: 'Dr. Denise Smith (SME)', due: '2026-11-01', status: 'todo' },
+    { comp: 'c3', task: 'Judge recruitment — 5 external + 2 alternates', owner: 'Engagement Lead', due: '2026-12-01', status: 'todo' },
+    { comp: 'c3', task: 'Website + USA.gov posting + Part 2 report', owner: 'Competition Coordinator', due: '2026-12-15', status: 'todo' }
   ];
 
   var RISKS = [
-    { scope: 'c2', likelihood: 'High', impact: 'High', owner: 'Program Manager',
-      text: 'Rubric COR approval is overdue against the 30-day lead-time rule, putting the Sep 22 Stage 1 open date at risk.',
-      mitigation: 'Escalated to the COR on Sep 17; the public date holds only if approval lands by Sep 19 — the 5-business-day variance threshold.' },
-    { scope: 'portfolio', likelihood: 'High', impact: 'Medium', owner: 'Program Manager',
-      text: 'All three Stage 1 launches fall in the same week, concentrating Challenge Ops Lead bandwidth.',
-      mitigation: 'Stagger go-live checklists 3–4 days apart per competition; Review Lead on call as launch-week backup.' },
-    { scope: 'c3', likelihood: 'Medium', impact: 'High', owner: 'Review Lead',
-      text: 'SME reviewer bench depth across a multi-year period of performance, in a small expert field.',
-      mitigation: 'Recruit a bench deeper than the seats needed, stagger terms, and refresh conflict screening every stage.' },
-    { scope: 'c1', likelihood: 'Medium', impact: 'Medium', owner: 'Outreach Lead',
-      text: 'Thin applicant pool: the technical specialty is not yet widely represented in the field.',
-      mitigation: 'Named-list recruitment and cross-domain matchmaking ahead of the open call; Stage 1 team formation is the early indicator.' }
+    { scope: 'portfolio', likelihood: 'High', impact: 'Medium', owner: 'Jay Chikobe',
+      text: 'All three competitions stand up within the same 2.5-week window (award/kickoff Sep 15 – Oct 2026), split across two engagement leads, concentrating rules drafting, website builds, and reviewer/judge recruitment at once.',
+      mitigation: 'Each competition’s lead confirmed dedicated stand-up bandwidth; sequence admin tasks that compete for the same internal resources (platform builds, NSF/CDC/NIH review submissions).' },
+    { scope: 'c1', likelihood: 'Medium', impact: 'Medium', owner: 'Program Manager',
+      text: 'Every date in this plan is pinned to an assumed Sep 16, 2026 NSF award; award timing is not yet confirmed, and a later award shifts the whole schedule with it.',
+      mitigation: 'Stated explicitly in the proposal as a planning assumption; re-baseline the schedule against the actual award date once received.' },
+    { scope: 'c2', likelihood: 'Medium', impact: 'Medium', owner: 'Outreach Lead',
+      text: 'Recruiting into a solver community that does not yet exist — a combined quantum-sensing and preclinical-toxicology pool.',
+      mitigation: 'Dual-track outreach through quantum channels (APS, National Quantum Initiative centers, DOE QIS centers) and NAMs/toxicology channels (Society of Toxicology, NCATS tissue chip grantees, WFIRM’s NAMs standards meeting).' },
+    { scope: 'c2', likelihood: 'Medium', impact: 'High', owner: 'Review Lead',
+      text: 'Securing judges credible in both quantum sensing and preclinical toxicology.',
+      mitigation: 'WFIRM (Atala, Yoo, Soker) staffs the NAMs/toxicology panel; FedTech’s own quantum network plus QED-C and the DOE quantum information science centers cover the quantum panel.' },
+    { scope: 'c3', likelihood: 'Medium', impact: 'Medium', owner: 'Engagement Lead',
+      text: 'Approval cycles slipping the launch — CDC review of rules, rubric, and participation agreement.',
+      mitigation: 'November CDC review package plus a built-in January float before the competition opens.' },
+    { scope: 'c3', likelihood: 'Medium', impact: 'Medium', owner: 'Senior Portfolio Manager',
+      text: 'A thin submission pool for a purpose-built wearable-sensor challenge.',
+      mitigation: 'Biweekly registrant-quality forecast catches a shortfall in time to add outreach through IAFF, NVFC, IAFC, NFFF, and FireWERX.' },
+    { scope: 'c3', likelihood: 'Medium', impact: 'High', owner: 'Engagement Lead',
+      text: 'CDC-NIOSH IRB review of the Government’s demonstration protocol is not yet scoped.',
+      mitigation: 'Meets monthly with the project team; FedTech requests the review path by May 2027, ahead of the Phase 3 facility date.' },
+    { scope: 'c3', likelihood: 'Medium', impact: 'Medium', owner: 'Competition Coordinator',
+      text: 'A Phase 2 team could reach the demonstration facility without its own IRB determination.',
+      mitigation: 'Tracked in every monthly team check-in through Phase 2.' }
   ];
   /* ============ end sample data ============ */
 
@@ -573,8 +603,8 @@
     var soonestComps = soonestDate ? nextStarts.filter(function (n) { return +n.d === +soonestDate; }).map(function (n) { return n.comp.num; }) : [];
 
     var tiles = [
-      { label: 'Competitions in launch window', value: String(COMPETITIONS.length), caption: 'Stage 1 opens within 11 days, portfolio-wide' },
-      { label: 'Next Stage 1 open', value: soonestDate ? (daysBetween(AS_OF, soonestDate) + 'd') : '—',
+      { label: 'Competitions in launch window', value: String(COMPETITIONS.length), caption: 'Award/kickoff span Sep–Oct 2026, portfolio-wide' },
+      { label: 'Next milestone', value: soonestDate ? (daysBetween(AS_OF, soonestDate) + 'd') : '—',
         caption: soonestDate ? (fmtShort(soonestDate) + ' · Competition' + (soonestComps.length > 1 ? 's ' : ' ') + soonestComps.join(' & ')) : '' },
       { label: 'Open action items', value: String(openTasks), caption: 'across all 3 competitions' },
       { label: 'Blocked items', value: String(blocked), caption: blocked ? 'needs PM attention now' : 'nothing blocked', cls: blocked ? 'crit' : '' }
@@ -619,7 +649,7 @@
       var countdown = document.createElement('div'); countdown.className = 'countdown';
       var n = document.createElement('span'); n.className = 'n';
       n.textContent = diff > 0 ? ('in ' + diff + 'd') : (diff === 0 ? 'today' : (Math.abs(diff) + 'd ago'));
-      var u = document.createElement('span'); u.className = 'u'; u.textContent = nextStage.label + ' opens';
+      var u = document.createElement('span'); u.className = 'u'; u.textContent = nextStage.label + (diff < 0 ? ' opened' : ' opens');
       var d = document.createElement('div'); d.className = 'd'; d.textContent = fmtFull(startDate);
       countdown.appendChild(n); countdown.appendChild(u); countdown.appendChild(d);
       if (c.status === 'at-risk') {
@@ -637,6 +667,11 @@
       track.appendChild(fill);
       meterWrap.appendChild(mLabel); meterWrap.appendChild(track);
 
+      var priceRow = document.createElement('div'); priceRow.className = 'owner-row';
+      var priceLabel = document.createElement('span'); priceLabel.textContent = 'Price';
+      var priceVal = document.createElement('span'); priceVal.className = 'mono'; priceVal.textContent = c.price;
+      priceRow.appendChild(priceLabel); priceRow.appendChild(priceVal);
+
       var ownerRow = document.createElement('div'); ownerRow.className = 'owner-row';
       var ownerSpan = document.createElement('span'); ownerSpan.className = 'owner'; ownerSpan.textContent = c.owner;
       var codeSpan = document.createElement('span'); codeSpan.className = 'mono'; codeSpan.textContent = 'COMP-' + c.num;
@@ -649,6 +684,7 @@
       card.appendChild(head);
       card.appendChild(countdown);
       card.appendChild(meterWrap);
+      card.appendChild(priceRow);
       card.appendChild(ownerRow);
       card.appendChild(link);
       el.appendChild(card);
@@ -670,6 +706,15 @@
     domainStart.setDate(domainStart.getDate() - 10);
     domainEnd.setDate(domainEnd.getDate() + 14);
     var domainSpan = domainEnd - domainStart;
+    var domainMonths = (domainEnd.getFullYear() - domainStart.getFullYear()) * 12 + (domainEnd.getMonth() - domainStart.getMonth());
+    // Portfolio spans multiple years once every competition's full lifecycle is in
+    // the data (months to a 2031 close vs. a 2028 close). A fixed-width chart would
+    // crush month ticks into overlapping text and bunch shorter competitions' marks
+    // together, so width scales with the actual span — ~28px/month keeps ticks and
+    // marks legible, and the (expected, standard-for-a-multi-year-Gantt) tradeoff is
+    // horizontal scroll to reach the out-years; the near-term overlap all three
+    // competitions share is visible without scrolling.
+    document.getElementById('tl-inner').style.minWidth = Math.max(640, domainMonths * 34) + 'px';
 
     function pct(date) { return ((date - domainStart) / domainSpan) * 100; }
 
@@ -680,7 +725,9 @@
       var tick = document.createElement('div');
       tick.className = 'tick';
       tick.style.left = pct(cursor) + '%';
-      tick.textContent = cursor.toLocaleDateString('en-US', { month: 'short', year: cursor.getMonth() === 0 ? 'numeric' : undefined });
+      var tickLabel = cursor.getMonth() === 0 ? String(cursor.getFullYear()) : cursor.toLocaleDateString('en-US', { month: 'short' });
+      tick.textContent = tickLabel;
+      if (cursor.getMonth() === 0) tick.classList.add('year');
       axis.appendChild(tick);
       cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
     }
@@ -720,7 +767,10 @@
             above.textContent = s.abbr;
             block.appendChild(above);
           }
-          attachTooltip(block, s.label + ' · ' + c.name, fmtShort(start) + ' – ' + fmtShort(end) + '  ·  winners announced ' + fmtShort(parseDate(s.announce)));
+          var rangeLine = fmtShort(start) + ' – ' + fmtShort(end);
+          if (s.detail) rangeLine += '  ·  ' + s.detail;
+          else if (s.announce) rangeLine += '  ·  winners announced ' + fmtShort(parseDate(s.announce));
+          attachTooltip(block, s.label + ' · ' + c.name, rangeLine);
           row.appendChild(block);
         } else {
           var date = parseDate(s.date);
@@ -729,7 +779,9 @@
           pt.style.left = pct(date) + '%';
           pt.style.background = 'var(' + c.color + ')';
           pt.tabIndex = 0;
-          attachTooltip(pt, s.label + ' · ' + c.name, fmtFull(date));
+          var pointLine = fmtFull(date);
+          if (s.detail) pointLine += '  ·  ' + s.detail;
+          attachTooltip(pt, s.label + ' · ' + c.name, pointLine);
           row.appendChild(pt);
         }
       });
