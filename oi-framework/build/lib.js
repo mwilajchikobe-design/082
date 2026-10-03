@@ -30,7 +30,8 @@ const H = THEME.colors; // hex, for hex-only options (shadows, backgrounds)
 const W = 13.333, HGT = 7.5;
 const FOOTER = "Outcome-First Challenge Journey";
 
-function newDeck(title) {
+function newDeck(title, opts = {}) {
+  const footer = opts.footer || FOOTER;
   const pres = new pptxgen();
   pres.layout = "LAYOUT_WIDE";
   pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
@@ -69,7 +70,7 @@ function newDeck(title) {
     objects: [
       { placeholder: { options: { name: "title", type: "title", x: 0.6, y: 0.35, w: 12.1, h: 0.95,
         fontFace: THEME.headFontFace, fontSize: 28, bold: true, color: P.teal, valign: "middle", align: "left", margin: 0 }, text: "" } },
-      { text: { text: FOOTER, options: { x: 0.6, y: 6.98, w: 6, h: 0.3, fontSize: 10, color: P.slate, margin: 0 } } },
+      { text: { text: footer, options: { x: 0.6, y: 6.98, w: 6, h: 0.3, fontSize: 10, color: P.slate, margin: 0 } } },
     ],
     slideNumber: { x: 12.1, y: 6.98, w: 0.6, h: 0.3, fontSize: 10, color: P.slate, align: "right" },
   });
