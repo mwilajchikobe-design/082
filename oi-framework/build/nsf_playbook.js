@@ -161,8 +161,9 @@ const NAME = "NSF Quantum Algorithms Challenge";
     ["20–30", "12–17", "Where we are and the timeline", "Confirm the December launch; flag the November rules deadline", "4, 6"],
     ["30–50", "17–32", "Use cases and the brief", "Walk the one-page brief; get a yes or no from each company on writing one", "7"],
     ["50–65", "32–42", "Pairing capacity and prize structure", "Ask each company for a team count; test options A, B and C", "8"],
-    ["65–80", "42–52", "Judging and conflicts", "Agree the recusal principle; ask for judge nominations", "9"],
-    ["80–90", "52–60", "Asks, decisions, next 90 days", "Confirm a named contact and a date for each ask", "13–15"],
+    ["65–75", "42–48", "Judging and conflicts", "Agree the recusal principle; ask for judge nominations", "9"],
+    ["75–82", "48–53", "Logframe and riskiest assumptions", "Point only to the assumptions column; ask the room which risk worries them most", "13–14"],
+    ["82–90", "53–60", "Asks, decisions, next 90 days", "Confirm a named contact and a date for each ask", "15–17"],
   ], { x: 0.6, y: 1.5, w: 12.1, colW: [0.9, 0.9, 2.6, 6.2, 1.5], fontSize: 12, bump: 2.5 });
   T(s, [{ text: "Hold in reserve: ", options: { bold: true } }, { text: "slides 10–12 (mobilize, eligibility, adopt) for questions; send the deck afterward with the asks table as the cover note." }],
     { x: 0.6, y: 6.0, w: 12.1, h: 0.5, fontSize: 12.5, color: P.ink });

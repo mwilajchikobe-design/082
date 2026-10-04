@@ -18,7 +18,7 @@ const NAME = "NSF Quantum Algorithms Challenge"; // replace with the confirmed c
   let s = pres.addSlide({ masterName: "Title Dark", sectionTitle: "Context" });
   s.addText(NAME, { placeholder: "title" });
   s.addText("Working session with NSF and Quantum+X industry collaborators\nFrom Phase 1 proposals to industry pilots  ·  October 2026", { placeholder: "body" });
-  s.addNotes("Goal of the session: leave with the inputs and decisions the competition needs before rules go to NSF review in November and launch in early December. The deck is built around those asks; slides 13–15 are the ones to land.");
+  s.addNotes("Goal of the session: leave with the inputs and decisions the competition needs before rules go to NSF review in November and launch in early December. The deck is built around those asks; slides 13–17 are the ones to land: the logframe shows where the theory is riskiest, and the asks retire those risks.");
 
   // ---------------- 2. Context: Project Triad ----------------
   s = slide("Context", "The challenge is the first public execution of Quantum+X, inside NSF's Project Triad");
@@ -290,6 +290,43 @@ const NAME = "NSF Quantum Algorithms Challenge"; // replace with the confirmed c
   });
   T(s, "IP remains with participants, so collaborators and teams agree their own terms for Phase 2 work.", { x: 0.6, y: 5.5, w: 7.1, h: 0.8, fontSize: 12.5, italic: true, color: P.slate });
   source(s, P, "RFTP NOIS3-085 §1.3 (Phase 2), §2.1.4 (industry collaborators), §2.1.6.1.3 (IP).", 6.55);
+
+  // ---------------- 13. Logframe ----------------
+  pres.addSection({ title: "Logic and risks" });
+  s = slide("Logic and risks", "Logframe: the challenge's theory of change, and where its assumptions are weakest");
+  const R = (lvl) => ({ text: lvl + "  ", options: { bold: true, color: lvl === "HIGH" ? P.coral : lvl === "WATCH" ? P.slate : P.mid } });
+  const cellRuns = (lvl, txt) => ({ text: [R(lvl), { text: txt, options: { color: P.ink } }] });
+  const lv = (t, sub) => ({ text: [{ text: t, options: { bold: true, color: P.teal, breakLine: true } }, { text: sub, options: { color: P.slate, italic: true } }] });
+  table(s, P, [
+    ["Level", "What we aim for", "Indicators", "How we'll know", "Assumptions needed to reach the level above"],
+    [lv("Goal", "Project Triad"), "Quantum technology moves from the lab into real-world use in U.S. industry", "Solutions adopted commercially; follow-on funding and contracts", "NSF Quantum+X tracking; 12–36-month follow-up", cellRuns("WATCH", "Quantum+X continues after this challenge, and later tracks reuse what it builds")],
+    [lv("Purpose", "Phase 2 outcome"), "Industry-paired teams validate quantum algorithms on real problems", "Pairings formed; pilots launched; pilots meeting agreed success criteria", "Phase 2 status webinar; collaborator reports; close-out", cellRuns("HIGH", "Pilots lead to adoption, and quantum hardware matures enough to run the algorithms at useful scale (largely outside our control)")],
+    [lv("Outputs", "Phase 1 results"), "Up to 40 credible proposals with real use cases and benchmarks; winners verified and solutions to NSF by May 20, 2027", "Qualified submissions; share with classical baselines; EPSCoR share; on-time verification", "Platform data; judging records; RFTP §4.3 reports", cellRuns("HIGH", "Winners fit collaborator problems; pairing capacity matches the winner count; the Phase 2 prize and terms keep teams engaged")],
+    [lv("Activities", "Our delivery"), "Rules, website, outreach incl. EPSCoR, webinars, judging, verification and payment, pairing logistics", "Launch in early Dec 2026; milestones on schedule", "Status meetings; pre- and post-competition reports", cellRuns("MEDIUM", "Enough qualified, diverse teams enter despite the quantum skills barrier and NSF-format documents, and paper proposals can be judged credibly")],
+  ], { x: 0.6, y: 1.5, w: 12.1, colW: [1.45, 2.85, 2.45, 2.2, 3.15], fontSize: 11, bump: 1.5 });
+  T(s, [{ text: "Read bottom-up: ", options: { bold: true, color: P.teal } }, { text: "if the activities happen and their assumptions hold, the outputs follow; if the outputs land and their assumptions hold, the purpose follows; and so on up to the goal. Preconditions for the activities: rules through NSF review by November, and collaborator inputs by mid-November." }],
+    { x: 0.6, y: 5.95, w: 12.1, h: 0.6, fontSize: 12, color: P.ink });
+  source(s, P, "Logical framework format (narrative, indicators, means of verification, assumptions). Content: RFTP NOIS3-085 §1.2–1.3, §2.1, §3.1, §4.3. Risk ratings are our assessment for discussion.", 6.62);
+  s.addNotes("Don't walk every cell. Point to the right-hand column: that's where the risk is. Most of it sits in the jump from Phase 1 outputs to Phase 2 outcomes, and that's exactly what the collaborators control. Then move to the next slide.");
+
+  // ---------------- 14. Riskiest assumptions ----------------
+  s = slide("Logic and risks", "The four assumptions to test early, and one to watch");
+  const ra = [
+    ["HIGH", "Collaborators can pair with the number of winners", "If not, winners have nowhere to go", "Each company names a team count", "Late Oct 2026", "Ask 1"],
+    ["HIGH", "Paper proposals can show real quantum value", "Claims of advantage are hard to verify without hardware", "Mock-judge two or three sample entries against classical baselines", "Jan 2027", "Judging design"],
+    ["HIGH", "The Phase 2 incentive and terms keep winners engaged", "The Phase 2 prize, payer and IP terms are undetermined", "NSF decides the Phase 2 prize; partner guidance on terms", "Before winners are announced", "NSF decision"],
+    ["MEDIUM", "Enough qualified, diverse teams enter", "Quantum skills barrier, NSF-format documents, holiday launch", "Monthly registrant-quality report; EPSCoR share; January push", "Jan–Mar 2027", "Outreach"],
+    ["WATCH", "Hardware matures in time for Phase 3", "Outside the challenge's control", "Require resource estimates; hardware not required in Phase 1", "Ongoing", "—"],
+  ];
+  const head = ["Risk", "Assumption", "Why it's risky", "Early test or signal", "When", "Linked to"];
+  table(s, P, [head, ...ra.map((r) => [
+    { text: r[0], options: { bold: true, color: r[0] === "HIGH" ? P.coral : r[0] === "WATCH" ? P.slate : P.mid } },
+    { text: r[1], options: { bold: true } }, r[2], r[3], r[4], r[5]])],
+  { x: 0.6, y: 1.5, w: 12.1, colW: [1.0, 2.9, 2.75, 2.95, 1.35, 1.15], fontSize: 12, bump: 1.5 });
+  card(s, P, 0.6, 5.3, 12.1, 1.05, { fill: P.teal, name: "logframe-takeaway" });
+  T(s, [{ text: "The takeaway: ", options: { bold: true, color: P.amber } }, { text: "two of the three high risks sit in the handoff from Phase 1 to Phase 2, and the third in how Phase 1 is judged. Collaborator inputs and NSF's Phase 2 decisions retire the first two (the next two slides), and the judging design addresses the third.", options: { color: P.white } }],
+    { x: 0.85, y: 5.38, w: 11.6, h: 0.9, fontSize: 13.5, valign: "middle" });
+  source(s, P, "Ratings are our working assessment; revisit them at each gate.", 6.55);
 
   // ---------------- 13. Asks of industry ----------------
   pres.addSection({ title: "Asks and next steps" });
