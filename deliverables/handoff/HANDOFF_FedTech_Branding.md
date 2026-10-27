@@ -8,7 +8,7 @@ Paste this brief into a new Claude session on the FedTech work account and uploa
 
 | File | What it is |
 |---|---|
-| `FedTech_NOIS3_Challenge_Playbook.pdf` | The playbook as it stands: 54 landscape pages (1920×1440 artboards). Reference only. Every page is a flat image, so do not edit the PDF directly. |
+| `FedTech_NOIS3_Challenge_Playbook.pdf` | The playbook as it stands: 58 landscape pages (1920×1440 artboards). Reference only. Every page is a flat image, so do not edit the PDF directly. |
 | `Challenge_Design_Document_Template.docx` | Word template for the challenge design document: 23 pages, US Letter, Arial. |
 | `FedTech_Playbook_and_Design_Doc_Source.zip` | The editable source for both documents. See section 5. |
 | FedTech brand guide, logo files (SVG/PNG), brand fonts | Supplied from the work account. |
@@ -19,14 +19,14 @@ The playbook was also built as a Claude Design canvas on a personal account. Tha
 
 **NOIS3 Challenge Playbook.** An internal reference for FedTech Program Managers who lead NASA Open Innovation Services 3 (NOIS3) prize challenges. It is also shared with marketing. Contents, in order:
 
-- **Start here (pages 1–9):** overview; contents; the FedTech way (principles and design method, both marked "draft for review"); where CoECI sits; participant and client journeys; timeline and dependencies; milestone readiness checks; risks and early warnings.
-- **Fifteen workflows (pages 10–47),** in three phases plus a quality check. Each has a dark section-break page (illustration, best practices, key questions) followed by a step sheet.
+- **Start here (pages 1–13):** overview; contents; the FedTech way (principles and design method, both marked "draft for review"); where CoECI sits; participant and client journeys; timeline and dependencies; milestone readiness checks; risks and early warnings; PM resourcing (section page, team matrix, what the PM keeps, delegation guide).
+- **Fifteen workflows (pages 14–51),** in three phases plus a quality check. Each has a dark section-break page (illustration, best practices, key questions) followed by a step sheet.
   - **Design & launch (01–06):** challenge design session, website, application platform, Challenge.gov, outreach, info session.
   - **Run the competition (07–09):** competitor management, technical webinar, judging, plus the rubric method and the evaluation benchmarks.
   - **Results & closeout (10–14):** prize purse, winner announcement, convening, reporting and closeout, subcontractors.
   - **Quality check (15):** pipeline and outreach QA, with the ecosystem map and pipeline assumptions worksheet (A10) and the outreach plan and partner QA worksheet (A11).
   - Workflow 01 also has the glossary, the design document checklist and the rules and compliance page. Workflow 10 has a worked example from NOIS3-085.
-- **Annex and references (pages 48–54):** templates index; design document key questions (two pages); evaluation rubric template; blank workflow template; references (two pages).
+- **Annex and references (pages 52–58):** templates index; design document key questions (two pages); evaluation rubric template; blank workflow template; references (two pages).
 
 **Challenge Design Document template.** A Word document a PM fills in with the client during the design session, then sends for agency clearance. It has:
 
@@ -34,7 +34,7 @@ The playbook was also built as a Claude Design canvas on a personal account. Tha
 - 17 sections. Each has a purpose line, a red draft note, a blue key-questions box and fill-in tables;
 - Annex A (glossary), Annex B (rules and compliance questions) and an approval block.
 
-The two documents share content. Both the Word template and playbook pages 49–50 are generated from `design-doc/content.json`. If you change section names or key questions, keep the two in step.
+The two documents share content. Both the Word template and playbook pages 53–54 are generated from `design-doc/content.json`. If you change section names or key questions, keep the two in step.
 
 ## 3. The branding task
 
@@ -77,7 +77,7 @@ Approval (orange) and input (blue) must never become the same colour or similar 
 ## 5. Working with the source zip
 
 ```
-playbook/pages/      54 pages, one self-contained HTML file each (*.dc.html), plus canvas.json (page order and titles)
+playbook/pages/      58 pages, one self-contained HTML file each (*.dc.html), plus canvas.json (page order and titles)
 playbook/build/      render.js (Playwright screenshots each page), make_pdf.py (renders in canvas.json order and stitches the PDF)
 design-doc/          content.json (all 17 sections, glossary, compliance questions) and build.js (docx-js script that writes the .docx)
 ```
@@ -94,7 +94,7 @@ design-doc/          content.json (all 17 sections, glossary, compliance questio
   2. `node build.js`
 
   Brand colours are constants at the top of `build.js`: `INK`, `OR`, `ORL`, `BL`, `BLL`, `GR`, `GRL`. The cover page is the first block in the `kids` array. Header and footer text is near the end. For a logo, add an `ImageRun` (with `type: 'png'`) to the cover and the header.
-- **Contents page.** Page numbers on the contents page (page 2) and the templates annex (page 48) are typed in. If you add, remove or reorder pages, update both.
+- **Contents page.** Page numbers on the contents page (page 2) and the templates annex (page 52) are typed in. If you add, remove or reorder pages, update both.
 
 ## 6. What to send back
 
